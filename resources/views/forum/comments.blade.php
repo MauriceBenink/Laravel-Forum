@@ -13,9 +13,9 @@ $post = \App\posts::all()->where('id',$post)->first();
             @include('forum/layout/toolbar',['type' => 'post'])
         @endif
         @include('forum/layout/post',['post' => $post,'comment' => 'value'])
-            </div>
+        <hr>
+        </div>
     </div>
-    <br>
     <br>
     @foreach($comments as $comment)
         @if(user_permission($comment))

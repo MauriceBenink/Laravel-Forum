@@ -2,7 +2,8 @@
 
 
 @section('content')
-    <form method="POST" role = "form" action="{{route('newComment',[$maintopic,$subtopic,$post])}}">
+    @include('js/tinymc')
+    <form method="POST" id = 'newcomment' role = "form" action="{{route('newComment',[$maintopic,$subtopic,$post])}}">
         {{ csrf_field() }}
         <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
             <label for="title" class="col-md-4 control-label">Title</label>
@@ -22,7 +23,7 @@
             <label for="content" class="col-md-4 control-label">Content</label>
 
             <div class="col-md-6">
-                <input id="commentContent" type="text" class="form-control" name="commentContent" value="{{ old('commentContent') }}" required autofocus>
+                <textarea id="commentContent" class="form-control" name="commentContent" autofocus>{{ old('commentContent') }}</textarea>
 
                 @if ($errors->has('commentContent'))
                     <span class="help-block">
@@ -42,6 +43,9 @@
         </div>
         
     </form>
+    <script>
+
+    </script>
 
 
 @endsection

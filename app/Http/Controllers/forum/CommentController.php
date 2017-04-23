@@ -35,7 +35,7 @@ class CommentController extends Controller
 
     public function showNewComment($maintopic, $subtopic, $post)
     {
-        $showpost = posts::with('id', $post);
+        $showpost = posts::all()->where('id', $post);
         return view('forum/new/comments')->with([
             'maintopic' => $maintopic,
             'subtopic' => $subtopic,

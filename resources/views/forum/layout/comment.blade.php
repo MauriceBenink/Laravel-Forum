@@ -18,8 +18,16 @@
             {{$comment->name}}
         </div>
         <div class="comment-content">
-            {{$comment->content}}
+            {!! $comment->content !!}
         </div>
+        @if(!is_null($comment->author->comment_footer))
+            <hr>
+            <div class="comment-footer">
+                {!! $comment->author->comment_footer !!}
+            </div>
+            <hr>
+            @endif
+
     </div>
     <div class="comment-info">
         <div class="comment-rating">
@@ -29,4 +37,5 @@
             {{$comment->published_at,'YYYY/MM/DD'}}
         </div>
     </div>
+    <hr>
 </div>

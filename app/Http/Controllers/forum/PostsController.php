@@ -13,9 +13,14 @@ class PostsController extends Controller
         $par = $request->route()->parameters();
         $this->middleware("path.check:{$par['maintopic']},{$par['subtopic']}");
     }
+
     public function showPosts($maintopic,$subtopics){
         $posts = posts::all()->where('upper_level_id',$subtopics);
 
         return view('forum/post')->with(['posts' => $posts,'maintopic' => $maintopic]);
+    }
+
+    public function showNewPost(){
+
     }
 }
