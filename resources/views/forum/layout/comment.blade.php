@@ -7,7 +7,7 @@
             {{$comment->author->display_name}}}}
         </div>
         <div class="author-role">
-            {{($comment->author->levelName->name)}}
+            {!!($comment->author->levelName->name)!!}
         </div>
         <div class="author-popularity">
             {{$comment->author->popularity}}

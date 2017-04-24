@@ -16,15 +16,19 @@ Route::get('/', function () {
     return view('welcome');
 
 });
+
 Route::get('login','MyLoginController@index')->name('login');
 Route::post('login','MyLoginController@login');
 Route::post('logout','MyLoginController@logout')->name('logout');
+
 Route::post('password/email','MyLoginController@SendResetEmail');
 Route::get('password/reset','MyLoginController@ShowResetForm')->name('password.request');
 Route::post('password/reset','MyLoginController@reset');
 Route::get('password/reset/{token}','MyLoginController@ShowResetForm');
+
 Route::get('register','MyRegisterController@showRegistrationForm')->name('register');
 Route::post('register','MyRegisterController@register');
+
 Route::get('validate/{token?}','Validate@showValidationForm');
 Route::get('validate','Validate@showValidationForm')->name('validation');
 Route::post('validate','Validate@myValidate');
@@ -33,6 +37,7 @@ Route::post('validate','Validate@myValidate');
 Route::post('forum/new','forum\MainTopicController@makeNewMainTopic');
 Route::get('forum/new','forum\MainTopicController@showNewMainTopics')->name('newMainTopic');
 Route::get('forum','forum\MainTopicController@showMainTopics');
+
 
 
 Route::post('forum/{maintopic}/new','forum\SubTopicController@makeNewSubTopic');
@@ -47,6 +52,5 @@ Route::post('forum/{maintopic}/{subtopic}/{post}/new','forum\CommentController@m
 Route::get('forum/{maintopic}/{subtopic}/{post}/new','forum\CommentController@showNewComment')->name('newComment');
 Route::get('forum/{maintopic}/{subtopic}/{post}','forum\CommentController@showComments');
 
-//Auth::routes();
 
 Route::get('/home','HomeController@index')->name('home');

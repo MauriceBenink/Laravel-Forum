@@ -5,7 +5,7 @@ $post = \App\posts::all()->where('id',$post)->first();
 @extends('layouts/app')
 @section('content')
     @if(!is_null($comments->first()))
-    @include('forum/layout/nav',['type' => 'comments','item' => $comments->first()])
+    @include('forum/layout/nav',['type' => 'comment','item' => $comments->first()])
     <div class="checkhereplsjavascript">
         <div class="container">
         @if(user_edit_permission($post))
