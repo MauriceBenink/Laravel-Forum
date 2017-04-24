@@ -18,7 +18,7 @@ public/photos
 public/files
 public/photos/
 public/files/
-storage/framework/session/
+storage/framework/sessions/
 storage/*.key
 .env.*.php
 .env.php
