@@ -12,7 +12,7 @@
     @if(!is_null($maintopics->first()))
     @include('forum/layout/nav',['type' => 'maintopics'])
     @foreach($maintopics as $maintopic)
-
+{{specialPermission($maintopic)}}
         @if(user_permission($maintopic))
             <div class="container checkhereplsjavascript">
                 @if(user_edit_permission($maintopic))
