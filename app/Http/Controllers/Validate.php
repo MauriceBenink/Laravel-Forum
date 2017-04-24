@@ -73,11 +73,11 @@ class validate extends Controller
         $id = Auth::user()->id;
 
         return Validator::make($data, [
-            'hash' => "bail|required|min:32|max:32|exists:users,hashcode,id,$id",
+            'hash' => "required|min:32|max:32|exists:users,hashcode,id,$id",
         ]);
     }
 
     private function resetStatus(){
-        DB::update("update users set account_status = 0, hashcode = null where id = ".Auth::user()->id);
+        DB::update("update users set level = 1, account_status = 0, hashcode = null where id = ".Auth::user()->id);
     }
 }

@@ -1,4 +1,20 @@
-@include('forum/layout/nav',['type' =>'nothing','back' => $back])
+
+@include('forum/layout/nav',['type' =>'nothing','back' => $back,'new' => $type])
+
+@if($type == 'comment')
+    <div class="checkhereplsjavascript">
+        <div class="container">
+            @if(user_edit_permission($back['post']))
+                @include('forum/layout/toolbar',['type' => 'post'])
+            @endif
+            @include('forum/layout/commentpost',['post' => $back['post'],'comment' => 'value'])
+            <hr>
+        </div>
+    </div>
+    <br>
+
+@endif
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

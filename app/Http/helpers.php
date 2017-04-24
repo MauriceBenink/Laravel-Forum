@@ -2,6 +2,79 @@
 
 use \Illuminate\Support\Facades\Auth;
 
+if(! function_exists('newItem')){
+
+    /**
+     * @param string $type
+     *
+     * @return mixed
+     */
+
+    function newItem($type)
+    {
+        if (!is_null(Auth::user())) {
+            switch ($type) {
+                case "comment":
+                    if(Auth::user()->level >= 2){
+                        return true;
+                    }
+                    break;
+
+                case "post":
+                    if(Auth::user()->level >= 4){
+                        return true;
+                    }
+                    break;
+
+                case "subtopic":
+                    if(Auth::user()->level >= 6){
+                        return true;
+                    }
+
+                    break;
+                case "maintopic":
+                    if(Auth::user()->level >= 8){
+                        return true;
+                    }
+                    break;
+            }
+        }
+    }
+}
+
+if(! function_exists('BTM')){
+    /**
+     * Back to Subtopics
+     *
+     * @return string
+     */
+    function BTM(){
+        return "Back to MainTopics";
+    }
+}
+
+if(! function_exists('BTS')){
+    /**
+     * Back to Subtopics
+     *
+     * @return string
+     */
+    function BTS(){
+        return "Back to SubTopics";
+    }
+}
+
+if(! function_exists('BTP')){
+    /**
+     * Back to Subtopics
+     *
+     * @return string
+     */
+    function BTP(){
+        return "Back to Posts";
+    }
+}
+
 if(! function_exists('defaultPNG')){
 
     /**
@@ -11,6 +84,26 @@ if(! function_exists('defaultPNG')){
 
     function defaultPNG(){
         return 'default path';
+    }
+}
+
+if (!function_exists('url_remove')){
+    /**
+     * removes from the url input
+     *
+     * @param  mixed $input
+     *
+     * @return mixed
+     */
+    function url_remove($input = null){
+        if($input == null){
+            $input = url()->current();
+        }
+
+
+        $holder = explode('/',$input);
+        unset($holder[count($holder)-1]);
+        return (implode('/',$holder));
     }
 }
 

@@ -29,22 +29,23 @@ Route::get('validate/{token?}','Validate@showValidationForm');
 Route::get('validate','Validate@showValidationForm')->name('validation');
 Route::post('validate','Validate@myValidate');
 
-Route::post('forum/{maintopic}/{subtopic}/{post}/new','forum\CommentController@makeNewComment');
-Route::get('forum/{maintopic}/{subtopic}/{post}/new','forum\CommentController@showNewComment')->name('newComment');
-Route::get('forum/{maintopic}/{subtopic}/{post}','forum\CommentController@showComments');
-
-Route::post('forum/{maintopic}/{subtopic}/new','forum\CommentController@makeNewPost');
-Route::get("forum/{maintopic}/{subtopic}/new",'forum\PostsController@showNewPost')->name('newPost');
-Route::get("forum/{maintopic}/{subtopic}",'forum\PostsController@showPosts');
-
-Route::post('forum/{maintopic}/new','forum\SubTopicController@makeNewSubTopic');
-Route::get('forum/{maintopic}/new','forum\SubTopicController@showNewSubTopic')->name("newSubTopic");
-Route::get("forum/{maintopic}",'forum\SubTopicController@showSubTopics');
 
 Route::post('forum/new','forum\MainTopicController@makeNewMainTopic');
 Route::get('forum/new','forum\MainTopicController@showNewMainTopics')->name('newMainTopic');
 Route::get('forum','forum\MainTopicController@showMainTopics');
 
+
+Route::post('forum/{maintopic}/new','forum\SubTopicController@makeNewSubTopic');
+Route::get('forum/{maintopic}/new','forum\SubTopicController@showNewSubTopic')->name("newSubTopic");
+Route::get("forum/{maintopic}",'forum\SubTopicController@showSubTopics');
+
+Route::post('forum/{maintopic}/{subtopic}/new','forum\PostsController@makeNewPost');
+Route::get("forum/{maintopic}/{subtopic}/new",'forum\PostsController@showNewPost')->name('newPost');
+Route::get("forum/{maintopic}/{subtopic}",'forum\PostsController@showPosts');
+
+Route::post('forum/{maintopic}/{subtopic}/{post}/new','forum\CommentController@makeNewComment');
+Route::get('forum/{maintopic}/{subtopic}/{post}/new','forum\CommentController@showNewComment')->name('newComment');
+Route::get('forum/{maintopic}/{subtopic}/{post}','forum\CommentController@showComments');
 
 //Auth::routes();
 

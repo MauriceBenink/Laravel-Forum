@@ -6,13 +6,13 @@ $post = \App\posts::all()->where('id',$post)->first();
 @section('content')
     @if(!is_null($comments->first()))
     @include('forum/layout/nav',['type' => 'comments','item' => $comments->first()])
-
+    {{newItem('comment')}}
     <div class="checkhereplsjavascript">
         <div class="container">
         @if(user_edit_permission($post))
             @include('forum/layout/toolbar',['type' => 'post'])
         @endif
-        @include('forum/layout/post',['post' => $post,'comment' => 'value'])
+        @include('forum/layout/commentpost',['post' => $post,'comment' => 'value'])
         <hr>
         </div>
     </div>
@@ -30,7 +30,7 @@ $post = \App\posts::all()->where('id',$post)->first();
         @endif
     @endforeach
         @else
-        @include('forum/layout/nothingHere',['type' =>'comment','back' => ['main' => $maintopic, "sub" => $subtopic]])
+        @include('forum/layout/nothingHere',['type' =>'comment','back' => ['main' => $maintopic, "sub" => $subtopic ,"post" => $post]])
     @endif
     @include('js/myjavascript');
 @endsection

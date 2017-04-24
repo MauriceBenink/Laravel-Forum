@@ -17,7 +17,7 @@ class SubTopicController extends Controller
 
     public function showSubTopics($maintopic){
         $subtopics = sub_topics::all()->where("upper_level_id",$maintopic);
-        //dd($subtopics);
+
         return view('forum/sub_topic')->with(['subtopics' => $subtopics]);
     }
 }

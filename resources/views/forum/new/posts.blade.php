@@ -4,7 +4,7 @@
 @section('content')
     @include('js/tinymc')
 
-    <form method="POST" id = 'newcomment' role = "form" action="{{route('newPost',[$maintopic,$subtopic])}}">
+    <form method="POST" id = 'newpost' role = "form" action="{{route('newPost',[$maintopic,$subtopic])}}">
     {{ csrf_field() }}
 
         <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
@@ -35,15 +35,15 @@
             </div>
         </div>
 
-        <div class="form-group{{ $errors->has('content') ? ' has-error' : '' }}">
-            <label for="content" class="col-md-4 control-label">Content</label>
+        <div class="form-group{{ $errors->has('contentt') ? ' has-error' : '' }}">
+            <label for="contentt" class="col-md-4 control-label">Content</label>
 
             <div class="col-md-6">
-                <textarea id="content" class="form-control mce" name="content" autofocus>{!! old('content') !!}</textarea>
+                <textarea id="contentt" class="form-control mce" name="contentt" autofocus>{!! old('contentt') !!}</textarea>
 
-                @if ($errors->has('content'))
+                @if ($errors->has('contentt'))
                     <span class="help-block">
-                        <strong>{{ $errors->first('content') }}</strong>
+                        <strong>{{ $errors->first('contentt') }}</strong>
                     </span>
                 @endif
             </div>

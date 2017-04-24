@@ -50,6 +50,8 @@ class CommentController extends Controller
             unset($request['title']);
         }
 
+        $request['user_id'] = Auth::user()->id;
+
         $this->CommentValidator($request->all())->validate();
 
         $send = [
@@ -73,6 +75,7 @@ class CommentController extends Controller
             'title' => "min:10|max:50",
             'commentContent' =>"required|min:5|max:3000",
             'cansee' =>"required|integer|max:".Auth::user()->level."|min:0",
+            'user_id' => "exists:users,id",
         ]);
     }
 
