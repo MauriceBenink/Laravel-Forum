@@ -5,11 +5,24 @@
     <form action="{{url('forum')}}">
         <input type="submit" value="{{BTM()}}">
     </form>
+
+        @else
+        @if(newItem('maintopic'))
+            <br>
+            <form action="{{url("forum/new")}}">
+                <input type="submit" value="Make new MainTopic">
+            </form>
+            @endif
     @endif
 
 
     @if($type == 'subtopics')
-
+        @if(newItem('subtopic'))
+        <br>
+            <form action="{{url("forum/{$item->upper_level_id}/new")}}">
+                <input type="submit" value="Make new SubTopic">
+            </form>
+            @endif
         @endif
 
 

@@ -161,9 +161,8 @@ if(!function_exists('user_edit_permission')){
         if(is_null(Auth::user())){
             return false;
         }
-
         if(Auth::user()->id != $object->user_id) {
-            if (Auth::user()->level < $object->user_level_req_vieuw) {
+            if (Auth::user()->level < $object->user_level_req_edit) {
                 $perm = specialPermission($object);
                 if(empty($perm)){
                     return false;
