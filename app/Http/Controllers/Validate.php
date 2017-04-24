@@ -78,6 +78,6 @@ class validate extends Controller
     }
 
     private function resetStatus(){
-        DB::update("update users set level = 1, account_status = 0, hashcode = null where id = ".Auth::user()->id);
+        DB::update("update users set level = 2, account_status = 0, hashcode = null where id = ".Auth::user()->id);
     }
 }

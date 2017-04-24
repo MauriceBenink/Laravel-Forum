@@ -6,7 +6,6 @@ $post = \App\posts::all()->where('id',$post)->first();
 @section('content')
     @if(!is_null($comments->first()))
     @include('forum/layout/nav',['type' => 'comments','item' => $comments->first()])
-    {{newItem('comment')}}
     <div class="checkhereplsjavascript">
         <div class="container">
         @if(user_edit_permission($post))
