@@ -3,6 +3,10 @@
 use \Illuminate\Support\Facades\Auth;
 include "default.php";
 
+/**
+ * Custom Helper Commands
+ */
+
 if(! function_exists('newItem')){
 
     /**

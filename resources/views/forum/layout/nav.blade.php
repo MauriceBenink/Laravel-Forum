@@ -10,7 +10,7 @@
         @if(newItem('maintopic'))
             <br>
             <form action="{{url("forum/new")}}">
-                <input type="submit" value="Make new MainTopic">
+                <input type="submit" value="{{MNM()}}">
             </form>
             @endif
     @endif
@@ -20,7 +20,7 @@
         @if(newItem('subtopic'))
         <br>
             <form action="{{url("forum/{$item->upper_level_id}/new")}}">
-                <input type="submit" value="Make new SubTopic">
+                <input type="submit" value="{{MNS()}}">
             </form>
             @endif
         @endif
@@ -33,7 +33,7 @@
         @if(newItem('post'))
             <br>
             <form action="{{route('newPost',['maintopic' => $item->up->upper_level_id,'subtopic' => $item->upper_level_id])}}">
-                <input type="submit" value="Make new Post">
+                <input type="submit" value="{{MNP()}}">
             </form>
             @endif
         @endif
@@ -49,7 +49,7 @@
         @if(newItem('comment'))
             <br>
             <form action="{{route('newComment',['maintopic' => $item->up->up->upper_level_id,'subtopic'=>$item->up->upper_level_id,"post" => $item->upper_level_id])}}">
-                <input type="submit" value = "Make new Comment">
+                <input type="submit" value = "{{MNC()}}">
             </form>
             @endif
         @endif
@@ -65,7 +65,7 @@
                 @if(newItem($new) && $new == 'post')
                     <br>
                     <form action="{{url()->current().'/new'}}">
-                        <input type="submit" value = "Make new Post">
+                        <input type="submit" value = "{{MNP()}}">
                     </form>
                 @endif
 
@@ -76,7 +76,7 @@
                 @if(newItem($new) && $new == 'comment')
                     <br>
                     <form action="{{url()->current().'/new'}}">
-                        <input type="submit" value = "Make new Comment">
+                        <input type="submit" value = "{{MNC()}}">
                     </form>
                 @endif
             @endif
@@ -84,13 +84,13 @@
             @if(newItem($new)&&$new == 'subtopic')
                 <br>
                 <form action="{{url()->current().'/new'}}">
-                    <input type="submit" value = "Make new SubTopic">
+                    <input type="submit" value = "{{MNS()}}">
                 </form>
             @endif
             @if(newItem($new)&&$new == 'maintopic')
                 <br>
                 <form action="{{url()->current().'/new'}}">
-                    <input type="submit" value = "Make new MainTopic">
+                    <input type="submit" value = "{{MNM()}}">
                 </form>
             @endif
         @endif

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Here you'll be able to find all default value's
+ *
+ */
 
 if(! function_exists('defaultPNG')){
 
@@ -10,6 +14,35 @@ if(! function_exists('defaultPNG')){
 
     function defaultPNG(){
         return 'default path';
+    }
+}
+
+
+if(! function_exists('MNC')){
+
+    function MNC(){
+        return 'Make new Comment';
+    }
+}
+
+if(! function_exists('MNP')){
+
+    function MNP(){
+        return 'Make new Post';
+    }
+}
+
+if(! function_exists('MNS')){
+
+    function MNS(){
+        return 'Make new SubTopic';
+    }
+}
+
+if(! function_exists('MNM')){
+
+    function MNM(){
+        return 'Make new MainTopic';
     }
 }
 
