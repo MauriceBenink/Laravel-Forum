@@ -23,7 +23,7 @@
             <label for="content" class="col-md-4 control-label">Content</label>
 
             <div class="col-md-6">
-                <textarea id="commentContent" class="form-control" name="commentContent" autofocus>{{ old('commentContent') }}</textarea>
+                <textarea id="commentContent" class="form-control mce" name="commentContent" autofocus>{!! old('commentContent') !!}</textarea>
 
                 @if ($errors->has('commentContent'))
                     <span class="help-block">

@@ -62,5 +62,6 @@ class Kernel extends HttpKernel
         'path.check' => exists::class,
         'create.perm' => \App\Http\Middleware\forum\create_permission::class,
 
+
     ];
 }

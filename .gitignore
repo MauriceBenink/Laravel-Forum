@@ -14,6 +14,10 @@ node_modules/
 npm-debug.log
 public/storage
 public/hot
+public/photos
+public/files
+public/photos/
+public/files/
 storage/*.key
 .env.*.php
 .env.php
