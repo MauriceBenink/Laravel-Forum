@@ -36,7 +36,7 @@ class SubTopicController extends Controller
 
         $request['user_id'] = Auth::user()->id;
 
-        $this->SubTopicValidator($request->all())->validate();
+        $this->NewSubTopicValidator($request->all())->validate();
 
         $send =[
             'user_id' => $request->user_id,
@@ -52,7 +52,7 @@ class SubTopicController extends Controller
         return redirect("forum/{$maintopic}");
     }
 
-    protected function SubTopicValidator(array $data)
+    protected function NewSubTopicValidator(array $data)
     {
         return Validator::make($data, [
             'title' => "required|min:10|max:50",

@@ -30,7 +30,7 @@ class MainTopicController extends Controller
 
         $request['user_id'] = Auth::user()->id;
 
-        $this->MainTopicValidator($request->all())->validate();
+        $this->NewMainTopicValidator($request->all())->validate();
 
         $send =[
             'user_id' => $request->user_id,
@@ -45,7 +45,7 @@ class MainTopicController extends Controller
         return redirect("forum");
     }
 
-    protected function MainTopicValidator(array $data)
+    protected function NewMainTopicValidator(array $data)
     {
         return Validator::make($data, [
             'title' => "required|min:10|max:50",

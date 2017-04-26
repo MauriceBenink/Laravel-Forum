@@ -37,7 +37,7 @@ class PostsController extends Controller
 
         $request['user_id'] = Auth::user()->id;
 
-        $this->PostValidator($request->all())->validate();
+        $this->NewPostValidator($request->all())->validate();
 
         $send = [
             'name' => $request->title,
@@ -53,7 +53,7 @@ class PostsController extends Controller
         return redirect("forum/$maintopic/$subtopic");
     }
 
-    protected function PostValidator(array $data)
+    protected function NewPostValidator(array $data)
     {
         return Validator::make($data, [
             'title' => "required|min:10|max:50",

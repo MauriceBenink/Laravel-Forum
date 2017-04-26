@@ -5,6 +5,16 @@
  *
  */
 
+if(! function_exists('noPermError')){
+    /**
+     * @return mixed standard no permission error
+     */
+
+    function noPermError(){
+        return "You do not have the required permissions !";
+    }
+}
+
 if(! function_exists('defaultPNG')){
 
     /**

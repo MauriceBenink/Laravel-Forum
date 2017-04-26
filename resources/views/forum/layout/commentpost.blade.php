@@ -2,8 +2,12 @@
     <div class="title">
         {{$post->name}}
     </div>
+    <hr>
     <div class="description">
         {!!$post->content!!}
+    </div>
+    <div class="post-footer">
+        {!! $post->author->comment_footer !!}
     </div>
     <div class="author-body">
         <div class="author-png">

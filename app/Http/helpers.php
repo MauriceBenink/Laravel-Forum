@@ -7,6 +7,26 @@ include "default.php";
  * Custom Helper Commands
  */
 
+
+if(! function_exists('auth_level')){
+    /**
+     * @param int $level
+     *
+     * Auth user is bigger or equal to level
+     *
+     * @return boolean
+     */
+
+    function auth_level($level){
+        if(!is_null(Auth::user())){
+            if(Auth::user()->level >= $level){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
 if(! function_exists('newItem')){
 
     /**
@@ -90,17 +110,20 @@ if(!function_exists('user_permission')){
      */
 
     function user_permission($object){
-
+        if(!is_null($object->banned_by)){
+            return false;
+        }
 
         if(is_null(Auth::user())){
             if($object->user_level_req_vieuw != 0){
                 return false;
             }
-        }
-        if(Auth::user()->id != $object->user_id) {
-            if (Auth::user()->level < $object->user_level_req_vieuw) {
-                if(empty(specialPermission($object))){
-                    return false;
+        }else {
+            if (Auth::user()->id != $object->user_id) {
+                if (Auth::user()->level < $object->user_level_req_vieuw) {
+                    if (empty(specialPermission($object))) {
+                        return false;
+                    }
                 }
             }
         }

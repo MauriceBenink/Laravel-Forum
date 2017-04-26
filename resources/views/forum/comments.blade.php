@@ -9,7 +9,7 @@ $post = \App\posts::all()->where('id',$post)->first();
     <div class="checkhereplsjavascript">
         <div class="container">
         @if(user_edit_permission($post))
-            @include('forum/layout/toolbar',['type' => 'post'])
+            @include('forum/layout/toolbar',['type' => 'commentpost'])
         @endif
         @include('forum/layout/commentpost',['post' => $post,'comment' => 'value'])
         <hr>
@@ -20,7 +20,7 @@ $post = \App\posts::all()->where('id',$post)->first();
         @if(user_permission($comment))
             <div class="container">
                 @if(user_edit_permission($comment))
-                    @include('forum/layout/toolbar',['type' => 'comment'])
+                    @include('forum/layout/toolbar',['object'=>$comment,'type' => 'comment'])
                 @endif
 
                 @include('forum/layout/comment',['comment' => $comment])

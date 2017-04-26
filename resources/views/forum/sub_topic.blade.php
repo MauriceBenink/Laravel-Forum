@@ -2,7 +2,6 @@
 @section('content')
     @if(!is_null($subtopics->first()))
     @include('forum/layout/nav',['type' => 'subtopics','item' => $subtopics->first()])
-
     <div class="checkhereplsjavascript">
     @foreach($subtopics as $subtopic)
         @if(user_permission($subtopic))

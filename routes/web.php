@@ -51,6 +51,9 @@ Route::get("forum/{maintopic}/{subtopic}",'forum\PostsController@showPosts');
 Route::post('forum/{maintopic}/{subtopic}/{post}/new','forum\CommentController@makeNewComment');
 Route::get('forum/{maintopic}/{subtopic}/{post}/new','forum\CommentController@showNewComment')->name('newComment');
 Route::get('forum/{maintopic}/{subtopic}/{post}','forum\CommentController@showComments');
+Route::post("forum/{maintopic}/{subtopic}/{post}",'forum\CommentController@editComment');
+Route::get('forum/{maintopic}/{subtopic}/{post}/{comment}/edit','forum\CommentController@showeditComment')->name('editComment');
+Route::post('forum/{maintopic}/{subtopic}/{post}/{comment}/edit','forum\CommentController@makeEditComment');
 
 
 Route::get('/home','HomeController@index')->name('home');
