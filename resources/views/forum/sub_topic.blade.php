@@ -18,7 +18,7 @@
     </div>
 
     @else
-        @include('forum/layout/nothingHere',['type' =>'subtopic'])
+        @include('forum/layout/nothingHere',['type' =>'subtopic','back' => 'main'])
     @endif
     @include('js/myjavascript')
 

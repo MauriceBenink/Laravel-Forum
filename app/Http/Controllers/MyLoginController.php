@@ -33,7 +33,13 @@ class MyLoginController extends Controller
     public function login(Request $request)
     {
         $name = $request['login_name'];
-        $request['login_name'] = md5($request['login_name']);
+
+        if(function_exists('customEncrypt')){
+            $request['login_name'] = customEncrypt($request['login_name']);
+        }else{
+            $request['login_name'] = md5($request['login_name']);
+        }
+
 
         $this->validateLogin($request);
 

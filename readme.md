@@ -9,3 +9,7 @@
 
 
 this is a project for me to improve on laravel
+
+packages include : 
+	tinyMCE
+	laravel-filemanager

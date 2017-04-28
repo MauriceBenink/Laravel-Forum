@@ -2,6 +2,9 @@
 
 use \Illuminate\Support\Facades\Auth;
 include "default.php";
+if(file_exists($_SERVER['DOCUMENT_ROOT'].'\..\app\Http\customEncrypt.php')){
+    include 'customEncrypt.php';
+}
 
 /**
  * Custom Helper Commands

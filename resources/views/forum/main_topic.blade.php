@@ -15,7 +15,7 @@
         @if(user_permission($maintopic))
             <div class="container checkhereplsjavascript">
                 @if(user_edit_permission($maintopic))
-                    @include('forum/layout/toolbar',['type' => 'maintopic'])
+                    @include('forum/layout/toolbar',['type' => 'maintopic','object' => $maintopic])
                 @endif
 
                 @include('forum/layout/maintopic',['maintopic' => $maintopic])
@@ -25,7 +25,7 @@
     @endforeach
 
     @else
-        @include('forum/layout/nothingHere',['type' =>'maintopic'])
+        @include('forum/layout/nothingHere',['type' =>'maintopic','back' => 'main'])
     @endif
     @include('js/myjavascript')
 @endsection

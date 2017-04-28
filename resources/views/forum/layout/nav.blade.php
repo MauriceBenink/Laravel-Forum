@@ -58,7 +58,7 @@
     @if($type == 'nothing')
         @if(isset($back)&&!empty($back))
 
-            @if(count($back) >= 1)
+            @if(count($back) >= 1&&$back != 'main')
                 <form action="{{url("forum/{$back['main']}")}}">
                     <input type="submit" value="{{BTS()}}">
                 </form>

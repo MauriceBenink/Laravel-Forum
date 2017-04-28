@@ -18,6 +18,10 @@ class comments extends Model
         return $this->belongsTo('App\User','user_id');
     }
 
+    public function bannedBy(){
+        return $this->belongsTo('App\User','banned_by');
+    }
+
     public function up(){
         return $this->belongsTo('App\posts','upper_level_id');
     }

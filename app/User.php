@@ -43,6 +43,10 @@ class User extends Authenticatable
         return $this->hasMany('App\comments');
     }
 
+    public function banned($type){
+        return $this->hasMany("App\\$type",'banned_by');
+    }
+
     public function link(){
         return $this->hasMany('App\class_link_table','user_id','id');
     }

@@ -115,7 +115,7 @@ class CommentController extends Controller
         $comment->save();
 
         //process special permissions !
-        
+
        return redirect("forum/$maintopic/$subtopic/$post");
     }
 
@@ -206,6 +206,7 @@ class CommentController extends Controller
             'banned_by' => "required|integer|max:{$user->id}|min:{$user->id}",
             'banned_reason' => "required|min:4"
         ]);
+
     }
 
     private function NewCommentValidator(array $data)

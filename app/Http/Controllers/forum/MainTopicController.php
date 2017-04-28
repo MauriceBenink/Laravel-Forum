@@ -32,15 +32,14 @@ class MainTopicController extends Controller
 
         $this->NewMainTopicValidator($request->all())->validate();
 
-        $send =[
-            'user_id' => $request->user_id,
-            'name' => $request->title,
-            'description' => $request->description,
-            'user_level_req_vieuw' => $request->cansee,
-            'user_level_req_edit' => 8
-        ];
+        $new = new main_topics;
 
-        Auth::user()->mainTopics()->save(new main_topics($send));
+        $new->name = $request->title;
+        $new->description = $request->description;
+        $new->user_level_req_vieuw = $request->cansee;
+        $new->user_level_req_edit = 8;
+
+        $new -> save();
 
         return redirect("forum");
     }
