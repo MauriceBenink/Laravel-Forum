@@ -12,10 +12,6 @@ class class_link_table extends Model
 
     protected $hidden =[];
 
-    public function destoryMany(array $ids){
-        $this->destroy($ids);
-    }
-
     public function users(){
         return $this->belongsTo('App\User','user_id');
     }
