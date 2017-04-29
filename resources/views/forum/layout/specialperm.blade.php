@@ -4,7 +4,7 @@
     <!-- make a decend container and make this scrollable -->
         <label>Users</label>
         @foreach(\Illuminate\Support\Facades\DB::table('users')->orderBy('display_name','asc')->get()->all() as $user)
-            @if($user->id != $comment->author->id)
+            @if($user->id != $comment->author->id && \Illuminate\Support\Facades\Auth::user()->id != $user->id)
                 @if(!empty(\Illuminate\Support\Facades\DB::table('class_link_tables')->where('user_id',$user->id)->where("comments_id",$comment->id)->get()->all()))
                     @if(\Illuminate\Support\Facades\DB::table('class_link_tables')->where('user_id',$user->id)->where("comments_id",$comment->id)->orderBy('permission','desc')->get()->first()->permission)
                     <input type = "checkbox" name="specialperm0[user][]" value="{{$user->id}}">

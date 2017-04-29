@@ -15,7 +15,15 @@ class main_topics extends Model
     ];
 
     public function down(){
-        return $this->hasMany('App/sub_topics','upper_level_id');
+        return $this->hasMany('App\sub_topics','upper_level_id');
+    }
+
+    public static function killme($maintopic){
+        foreach($maintopic->down as $subtopic){
+            sub_topics::killme($subtopic);
+        }
+        self::destroy($maintopic->id);
+
     }
 
 

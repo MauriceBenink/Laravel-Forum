@@ -24,7 +24,7 @@ class create_permission
         if (is_null(Auth::user())) {
             return redirect('login')->with('returnError', 'You have to login first !');
         }
-        if (Auth::user()->level < $type * 2) {
+        if (!newItem($type)) {
             return $this->no_perm();
         }
 
@@ -47,8 +47,15 @@ class create_permission
 
     private function check($object){
 
+
         if($object->user_level_req_vieuw > Auth::user()->level){
-            return $this->no_perm();
+            $perm = specialPermission($object);
+            if(empty($perm)){
+                return $this->no_perm();
+            }
+            if($perm[0]->permission == 0){
+                return $this->no_perm();
+            }
         }
     }
 

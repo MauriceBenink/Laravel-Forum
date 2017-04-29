@@ -170,12 +170,13 @@ class CommentController extends Controller
     }
 
 
-    private function removeComment($post,$id)
+    protected function removeComment($post,$id)
     {
         $comment = comments::all()->where('id',$id)->first();
-
         if ($this->checkComment($post, $comment)) {
-            comments::destroy($id);
+
+            comments::killme($comment);
+
             return redirect(url()->current());
         }
 

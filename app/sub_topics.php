@@ -29,4 +29,18 @@ class sub_topics extends Model
     public function down(){
         return $this->hasMany('App\posts','upper_level_id');
     }
+
+    public function link(){
+        return $this->hasMany('App\class_link_table','sub_topics_id','id');
+    }
+
+    public static function killme($subtopic){
+        foreach($subtopic->down as $post){
+            posts::killme($post);
+        }
+        foreach($subtopic->link as $link){
+            class_link_table::destroy($link->id);
+        }
+        self::destroy($subtopic->id);
+    }
 }

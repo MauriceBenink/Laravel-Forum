@@ -10,6 +10,12 @@ class class_link_table extends Model
 {
     protected $fillable = ['user_id','sub_topic_id','post_id','comment_id','user_group_id','content_group_id','permission'];
 
+    protected $hidden =[];
+
+    public function destoryMany(array $ids){
+        $this->destroy($ids);
+    }
+
     public function users(){
         return $this->belongsTo('App\User','user_id');
     }

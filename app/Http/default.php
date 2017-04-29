@@ -5,7 +5,6 @@
  *
  */
 
-
 if(! function_exists('defaultBanPNG')){
 
     function defaultBanPNG(){
@@ -60,28 +59,28 @@ if(! function_exists('defaultPNG')){
 if(! function_exists('MNC')){
 
     function MNC(){
-        return 'Make new Comment';
+        return "Make new ".comment();
     }
 }
 
 if(! function_exists('MNP')){
 
     function MNP(){
-        return 'Make new Post';
+        return "Make new ".post();
     }
 }
 
 if(! function_exists('MNS')){
 
     function MNS(){
-        return 'Make new SubTopic';
+        return "Make new ".subtopic();
     }
 }
 
 if(! function_exists('MNM')){
 
     function MNM(){
-        return 'Make new MainTopic';
+        return "Make new ".maintopic();
     }
 }
 
@@ -92,7 +91,7 @@ if(! function_exists('BTM')){
      * @return string
      */
     function BTM(){
-        return "Back to MainTopics";
+        return "Back to ".maintopic()."s";
     }
 }
 
@@ -103,7 +102,7 @@ if(! function_exists('BTS')){
      * @return string
      */
     function BTS(){
-        return "Back to SubTopics";
+        return "Back to ".subtopic()."s";
     }
 }
 
@@ -114,6 +113,90 @@ if(! function_exists('BTP')){
      * @return string
      */
     function BTP(){
-        return "Back to Posts";
+        return "Back to ".post()."s";
+    }
+}
+
+if(!function_exists('commentlevel')){
+    /**
+     * default level for making comments
+     *
+     * @return int
+     */
+    function commentlevel(){
+        return 2;
+    }
+}
+
+if(!function_exists('postlevel')){
+    /**
+     * default level for making posts
+     *
+     * @return int
+     */
+    function postlevel(){
+        return 4;
+    }
+}
+
+if(!function_exists('subtopiclevel')){
+    /**
+     * default level for making subtopics
+     *
+     * @return int
+     */
+    function subtopiclevel(){
+        return 6;
+    }
+}
+
+if(!function_exists('maintopiclevel')){
+    /**
+     * default level for making maintopics
+     *
+     * @return int
+     */
+    function maintopiclevel(){
+        return 8;
+    }
+}
+
+if(!function_exists('post')){
+    /**
+     * Standard name for posts
+     * @return string
+     */
+    function post(){
+        return "Post";
+    }
+}
+
+if(!function_exists('comment')){
+    /**
+     * Standard name for comments
+     * @return string
+     */
+    function comment(){
+        return "Comment";
+    }
+}
+
+if(!function_exists('subtopic')){
+    /**
+     * Standard name for subtopcis
+     * @return string
+     */
+    function subtopic(){
+        return "SubTopic";
+    }
+}
+
+if(!function_exists('maintopic')){
+    /**
+     * Standard name for maintopics
+     * @return string
+     */
+    function maintopic(){
+        return "MainTopic";
     }
 }

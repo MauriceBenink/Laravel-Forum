@@ -43,26 +43,29 @@ if(! function_exists('newItem')){
     {
         if (!is_null(Auth::user())) {
             switch ($type) {
+                case 1:
                 case "comment":
-                    if(Auth::user()->level >= 2){
+                    if(Auth::user()->level >= commentlevel()){
                         return true;
                     }
                     break;
 
+                case 2:
                 case "post":
-                    if(Auth::user()->level >= 4){
+                    if(Auth::user()->level >= postlevel()){
                         return true;
                     }
                     break;
-
+                case 3:
                 case "subtopic":
-                    if(Auth::user()->level >= 6){
+                    if(Auth::user()->level >= subtopiclevel()){
                         return true;
                     }
 
                     break;
+                case 4:
                 case "maintopic":
-                    if(Auth::user()->level >= 8){
+                    if(Auth::user()->level >= maintopiclevel()){
                         return true;
                     }
                     break;

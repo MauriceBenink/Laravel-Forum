@@ -53,7 +53,7 @@ class Controller extends BaseController
         return $link_id;
     }
 
-    protected function specialPermissionsRemove($object,$link_id){
+    protected function specialPermissionsRemove($object,$link_id = []){
         $table = class_basename($object);
 
         $row = DB::table('class_link_tables')

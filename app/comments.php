@@ -25,4 +25,15 @@ class comments extends Model
     public function up(){
         return $this->belongsTo('App\posts','upper_level_id');
     }
+
+    public function link(){
+        return $this->hasMany('App\class_link_table','comments_id','id');
+    }
+
+    public static function killme($comment){
+        foreach($comment->link->all() as $link){
+            class_link_table::destroy($link->id);
+        }
+        comments::destroy($comment->id);
+    }
 }

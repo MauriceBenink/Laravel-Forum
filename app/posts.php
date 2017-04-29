@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\forum\PostsController;
 use Illuminate\Database\Eloquent\Model;
 
 class posts extends Model
@@ -28,5 +29,20 @@ class posts extends Model
 
     public function down(){
         return $this->hasMany('App\comments','upper_level_id');
+    }
+
+    public function link(){
+        return $this->hasMany('App\class_link_table','posts_id','id');
+    }
+
+    public static function killme($post){
+        foreach($post->down as $comment){
+            comments::killme($comment);
+        }
+        foreach($post->link as $link){
+            class_link_table::destroy($link->id);
+        }
+        self::destroy($post->id);
+
     }
 }
