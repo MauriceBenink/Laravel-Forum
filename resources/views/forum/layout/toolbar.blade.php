@@ -6,7 +6,16 @@
                 @endif
                 {{ csrf_field() }}
                 @if(auth_level(6))
-                    <input type="submit" name = 'type' value ='ban' onclick="return $(this).append($($('<input>').attr('name','reason').val(prompt('Reason for ban'))))">
+                    <input type="submit" name = 'type' value ='ban' onclick=" return ban()">
+                    <script>
+                        function ban(){
+                            reason = prompt('Reason for ban');
+                            if(!(reason == null||reason == '')){
+                                return $(this).append($($('<input>').attr('name','reason').val(reason)))
+                            }else{
+                                return false;
+                            }}
+                    </script>
                     <input type="submit" name = 'type' value="remove" onclick="return confirm('Are you sure you arent supposed to ban this comment ?')">
                     @else
                     <input type="submit" name = 'type' value="remove" onclick="return confirm('Are you 100% sure you want to delete this comment?')">

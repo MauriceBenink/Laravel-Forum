@@ -78,6 +78,11 @@
                     <form action="{{url()->current().'/new'}}">
                         <input type="submit" value = "{{MNC()}}">
                     </form>
+                    @else
+                    <br>
+                    <form action="{{url('validate')}}" onsubmit="return confirm('activate your account first !\n\nPress Ok to go to the validation page \nPress Cancel to stay on this page')">
+                        <input type="submit" value = "{{MNC()}}">
+                    </form>
                 @endif
             @endif
         @else

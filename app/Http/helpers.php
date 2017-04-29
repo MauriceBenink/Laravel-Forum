@@ -1,7 +1,9 @@
 <?php
 
 use \Illuminate\Support\Facades\Auth;
+
 include "default.php";
+
 if(file_exists($_SERVER['DOCUMENT_ROOT'].'\..\app\Http\customEncrypt.php')){
     include 'customEncrypt.php';
 }
@@ -37,7 +39,6 @@ if(! function_exists('newItem')){
      *
      * @return mixed
      */
-
     function newItem($type)
     {
         if (!is_null(Auth::user())) {
@@ -67,6 +68,7 @@ if(! function_exists('newItem')){
                     break;
             }
         }
+        return false;
     }
 }
 

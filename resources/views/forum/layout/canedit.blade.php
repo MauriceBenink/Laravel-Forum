@@ -2,12 +2,11 @@
 
     <label for="canedit">Who can edit this Comment</label>
     <select name="canedit" id="canedit">
-        @if(\Illuminate\Support\Facades\Auth::user()->level > 5)
-            <option value="6">Moderators</option>
-        @endif
-        @if(\Illuminate\Support\Facades\Auth::user()->level > 7)
-            <option value="8">Admins</option>
-        @endif
+        @foreach(\Illuminate\Support\Facades\DB::table('levels')->where('is_staff',1)->get()->all() as $tier)
+            @if(\Illuminate\Support\Facades\Auth::user()->level >= $tier->level)
+                <option value="{{$tier->level}}">{{$tier->name}}</option>
+            @endif
+        @endforeach
     </select>
 
     @if ($errors->has('canedit'))

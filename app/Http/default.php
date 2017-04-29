@@ -5,6 +5,35 @@
  *
  */
 
+
+if(! function_exists('defaultBanPNG')){
+
+    function defaultBanPNG(){
+        return "Defualt PNG path for removed accounts";
+    }
+}
+
+if(! function_exists('defaultBanRole')){
+
+    function defaultBanRole(){
+        return "NA";
+    }
+}
+
+if(! function_exists('defaultBanPop')){
+
+    function defaultBanPop(){
+        return ":(";
+    }
+}
+
+if(! function_exists('defaultBanDisplay')){
+
+    function defaultBanDisplay(){
+        return "Deleted Account";
+    }
+}
+
 if(! function_exists('noPermError')){
     /**
      * @return mixed standard no permission error

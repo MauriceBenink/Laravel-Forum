@@ -7,7 +7,7 @@
         @if(user_permission($subtopic))
             <div class="container">
                 @if(user_edit_permission($subtopic))
-                    @include('forum/layout/toolbar',['type' => 'subtopic'])
+                    @include('forum/layout/toolbar',['type' => 'subtopic','object' => $subtopic])
                 @endif
 
                 @include('forum/layout/subtopic',['subtopic' => $subtopic])

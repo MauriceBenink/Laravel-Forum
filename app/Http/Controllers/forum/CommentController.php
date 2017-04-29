@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\forum;
 
+use App\class_link_table;
 use App\comments;
 use App\posts;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -114,9 +116,36 @@ class CommentController extends Controller
         }
         $comment->save();
 
-        //process special permissions !
+        $this->specialperm($comment,$request->specialperm0,$request->specialperm1);
 
        return redirect("forum/$maintopic/$subtopic/$post");
+    }
+
+    private function specialperm($object,$perm0 = null , $perm1 = null){
+
+        $perms = [$perm0,$perm1];
+        $link_id = [];
+        foreach($perms as $permission => $perm) {
+            if (!is_null($perm)&&$permission < 2) {
+
+                if (isset($perm['user'])) {
+                    if(!is_null($perm['user'])) {
+                        $link_id = $this->specialPermissionsEdit($object, $perm['user'], 'user', $link_id, $permission);
+                    }
+                }
+                if (isset($perm['usergroup'])) {
+                    if(!is_null($perm['usergroup'])) {
+                        $link_id = $this->specialPermissionsEdit($object, $perm['usergroup'], 'user_group', $link_id, $permission);
+                    }
+                }
+                if (isset($perm['contgroup'])) {
+                    if(!is_null($perm['contgroup'])) {
+                        $link_id = $this->specialPermissionsEdit($object, $perm['contgroup'], 'content_group', $link_id, $permission);
+                    }
+                }
+            }
+        }
+        $this->specialPermissionsRemove($object,$link_id);
     }
 
     public function editComment(Request $request,$maintpost,$subpost,$post){

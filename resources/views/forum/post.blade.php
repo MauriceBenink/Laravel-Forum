@@ -9,7 +9,7 @@
         @if(user_permission($post))
             <div class="container">
                 @if(user_edit_permission($post))
-                    @include('forum/layout/toolbar',['type' => 'post'])
+                    @include('forum/layout/toolbar',['type' => 'post','object' => $post])
                 @endif
 
                 @include('forum/layout/post',['post' => $post])

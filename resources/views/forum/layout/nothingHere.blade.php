@@ -5,7 +5,7 @@
     <div class="checkhereplsjavascript">
         <div class="container">
             @if(user_edit_permission($back['post']))
-                @include('forum/layout/toolbar',['type' => 'post'])
+                @include('forum/layout/toolbar',['type' => 'post','object' => $back['post']])
             @endif
             @include('forum/layout/commentpost',['post' => $back['post'],'comment' => 'value'])
             <hr>
