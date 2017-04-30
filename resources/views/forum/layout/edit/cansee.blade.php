@@ -1,6 +1,5 @@
 <div class="form-group{{ $errors->has('cansee') ? ' has-error' : '' }}">
-
-<label for="cansee">Who can see this Comment</label>
+<label for="cansee">Who can see this {{ucfirst(substr(class_basename($object),0,-1))}}</label>
 <select name="cansee" id="cansee">
     <option value="0">Everyone</option>
     @foreach(\Illuminate\Support\Facades\DB::table('levels')->get()->all() as $tier)

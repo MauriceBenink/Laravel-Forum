@@ -109,6 +109,18 @@ if(! function_exists('url_add')) {
     }
 }
 
+if(! function_exists('min_mod_level')){
+    /**
+     * @return integer lowest mod level
+     */
+    function min_mod_level(){
+
+        $Min_mod_level = \Illuminate\Support\Facades\DB::table('levels')->where('is_staff', 1)->orderBy('level', 'asc')->get()->first();
+
+        return $Min_mod_level->level;
+    }
+}
+
 if(!function_exists('user_permission')){
 
     /**

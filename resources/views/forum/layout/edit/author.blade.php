@@ -1,10 +1,9 @@
 <div class="form-group{{ $errors->has('author') ? ' has-error' : '' }}">
-
     <label for="author">Author </label>
     <select name="author" id="author">
-        <option value="{{$comment->author->id}}">{{$comment->author->display_name}}</option>
+        <option value="{{$object->author->id}}">{{$object->author->display_name}}</option>
         @foreach(\App\User::all()->where('level','>=',2) as $user)
-            @if($user->id != $comment->author->id)
+            @if($user->id != $object->author->id)
             <option value="{{$user->id}}">{{$user->display_name}}</option>
             @endif
             @endforeach

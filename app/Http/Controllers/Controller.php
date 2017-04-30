@@ -3,15 +3,62 @@
 namespace App\Http\Controllers;
 
 use App\class_link_table;
+use  Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+
+
+    protected function BanValidator(array $data)
+    {
+        $user = Auth::user();
+        return Validator::make($data, [
+            'banned_by' => "required|integer|max:{$user->id}|min:{$user->id}",
+            'banned_reason' => "required|min:4"
+        ]);
+
+    }
+
+    protected function specialperm($object,$perm0 = null , $perm1 = null){
+
+        $perms = [$perm0,$perm1];
+        $link_id = [];
+        foreach($perms as $permission => $perm) {
+            if (!is_null($perm)&&$permission < 2) {
+
+                if (isset($perm['user'])) {
+                    if(!is_null($perm['user'])) {
+                        $link_id = $this->specialPermissionsEdit($object, $perm['user'], 'user', $link_id, $permission);
+                    }
+                }
+                if (isset($perm['usergroup'])) {
+                    if(!is_null($perm['usergroup'])) {
+                        $link_id = $this->specialPermissionsEdit($object, $perm['usergroup'], 'user_group', $link_id, $permission);
+                    }
+                }
+                if (isset($perm['contgroup'])) {
+                    if(!is_null($perm['contgroup'])) {
+                        $link_id = $this->specialPermissionsEdit($object, $perm['contgroup'], 'content_group', $link_id, $permission);
+                    }
+                }
+            }
+        }
+
+        $table = class_basename($object);
+
+        $row = DB::table('class_link_tables')
+            ->where("{$table}_id",$object->id)
+            ->whereNotIn('id',$link_id);
+        $row->delete();
+    }
 
 
 
@@ -51,14 +98,5 @@ class Controller extends BaseController
             }
         }
         return $link_id;
-    }
-
-    protected function specialPermissionsRemove($object,$link_id = []){
-        $table = class_basename($object);
-
-        $row = DB::table('class_link_tables')
-            ->where("{$table}_id",$object->id)
-            ->whereNotIn('id',$link_id);
-        $row->delete();
     }
 }

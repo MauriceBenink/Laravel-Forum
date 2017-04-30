@@ -47,6 +47,9 @@ Route::get("forum/{maintopic}",'forum\SubTopicController@showSubTopics');
 Route::post('forum/{maintopic}/{subtopic}/new','forum\PostsController@makeNewPost');
 Route::get("forum/{maintopic}/{subtopic}/new",'forum\PostsController@showNewPost')->name('newPost');
 Route::get("forum/{maintopic}/{subtopic}",'forum\PostsController@showPosts');
+Route::post("forum/{maintopic}/{subtopic}",'forum\PostsController@editPosts');
+Route::get('forum/{maintopic}/{subtopic}/{post}/edit','forum\PostsController@showEditPost')->name('editPost');
+Route::post('forum/{maintopic}/{subtopic}/{post}/edit','forum\PostsController@makeEditPost');
 
 Route::post('forum/{maintopic}/{subtopic}/{post}/new','forum\CommentController@makeNewComment');
 Route::get('forum/{maintopic}/{subtopic}/{post}/new','forum\CommentController@showNewComment')->name('newComment');

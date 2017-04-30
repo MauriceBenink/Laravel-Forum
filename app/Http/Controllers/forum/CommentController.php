@@ -92,61 +92,46 @@ class CommentController extends Controller
         }else{
             $request['rating'] = false;
         }
+
         if(is_null($request->title)){
             unset($request['title']);
         }
+
         $this->EditCommentValidator($request->all())->validate();
 
         $comment = comments::find($comment);
-        $comment->name = $request->title;
-        $comment->content = $request->commentContent;
-        $comment->priority = $request->priority;
-        $comment->user_level_req_vieuw = $request->cansee;
-        if(isset($request->author)) {
-            $comment->user_id = $request->author;
-        }
-        if(isset($request->upper)) {
-            $comment->upper_level_id = $request->upper;
-        }
-        if(isset($request->canedit)) {
-            $comment->user_level_req_edit = $request->canedit;
-        }
-        if($request->rating){
-            $comment->rating = 0;
-        }
-        $comment->save();
 
-        $this->specialperm($comment,$request->specialperm0,$request->specialperm1);
+        if($this->checkComment($post,$comment)) {
+            $comment->name = $request->title;
+            $comment->content = $request->commentContent;
+            $comment->user_level_req_vieuw = $request->cansee;
 
-       return redirect("forum/$maintopic/$subtopic/$post");
-    }
-
-    private function specialperm($object,$perm0 = null , $perm1 = null){
-
-        $perms = [$perm0,$perm1];
-        $link_id = [];
-        foreach($perms as $permission => $perm) {
-            if (!is_null($perm)&&$permission < 2) {
-
-                if (isset($perm['user'])) {
-                    if(!is_null($perm['user'])) {
-                        $link_id = $this->specialPermissionsEdit($object, $perm['user'], 'user', $link_id, $permission);
-                    }
+            if (Auth::user()->level >= min_mod_level()) {
+                if (isset($request->author)) {
+                    $comment->user_id = $request->author;
                 }
-                if (isset($perm['usergroup'])) {
-                    if(!is_null($perm['usergroup'])) {
-                        $link_id = $this->specialPermissionsEdit($object, $perm['usergroup'], 'user_group', $link_id, $permission);
-                    }
+                if (isset($request->upper)) {
+                    $comment->upper_level_id = $request->upper;
                 }
-                if (isset($perm['contgroup'])) {
-                    if(!is_null($perm['contgroup'])) {
-                        $link_id = $this->specialPermissionsEdit($object, $perm['contgroup'], 'content_group', $link_id, $permission);
-                    }
+                if (isset($request->canedit)) {
+                    $comment->user_level_req_edit = $request->canedit;
                 }
+                if ($request->rating) {
+                    $comment->rating = 0;
+                }
+                if(isset($request->priority)){
+                    $comment->priority = $request->priority;
+                }
+                $comment->save();
+
+                $this->specialperm($comment, $request->specialperm0, $request->specialperm1);
+
+                return redirect("forum/$maintopic/$subtopic/$post");
             }
         }
-        $this->specialPermissionsRemove($object,$link_id);
+        return redirect('forum')->with('returnError',noPermError());
     }
+
 
     public function editComment(Request $request,$maintpost,$subpost,$post){
 
@@ -190,7 +175,7 @@ class CommentController extends Controller
             $ban->banned_by = Auth::user()->id;
             $ban->banned_reason = $reason;
 
-            if( $this->BanCommentValidator([
+            if( $this->BanValidator([
                 "banned_by" =>$ban->banned_by,
                 "banned_reason" => $ban->banned_reason
             ])->fails()){
@@ -222,21 +207,11 @@ class CommentController extends Controller
             'title' => "min:10|max:50",
             'commentContent' =>"required|min:5|max:3000",
             'cansee' =>"required|integer|max:".Auth::user()->level."|min:0",
-            'canedit' =>"integer|max:".Auth::user()->level."|min:6",
+            'canedit' =>"integer|max:".Auth::user()->level."|min:".min_mod_level(),
             'priority' => "required|integer|max:9|min:0",
             'rating' => "boolean",
             'upper' => "integer|exists:posts,id"
         ]);
-    }
-
-    private function BanCommentValidator(array $data)
-    {
-        $user = Auth::user();
-        return Validator::make($data, [
-            'banned_by' => "required|integer|max:{$user->id}|min:{$user->id}",
-            'banned_reason' => "required|min:4"
-        ]);
-
     }
 
     private function NewCommentValidator(array $data)

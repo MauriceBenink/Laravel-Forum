@@ -47,7 +47,6 @@ class create_permission
 
     private function check($object){
 
-
         if($object->user_level_req_vieuw > Auth::user()->level){
             $perm = specialPermission($object);
             if(empty($perm)){
