@@ -20,7 +20,7 @@ class SubTopicController extends Controller
 
 
     public function showSubTopics($maintopic){
-        $subtopics = sub_topics::all()->where("upper_level_id",$maintopic);
+        $subtopics = sub_topics::where("upper_level_id",$maintopic)->orderBy('created_at','desc')->get();
 
         return view('forum/sub_topic')->with(['subtopics' => $subtopics]);
     }
@@ -44,7 +44,7 @@ class SubTopicController extends Controller
             'description' => $request->description,
             'upper_level_id' => $maintopic,
             'user_level_req_vieuw' => $request->cansee,
-            'user_level_req_edit' => 6,
+            'user_level_req_edit' => subtopiclevel(),
         ];
 
         Auth::user()->subTopics()->save(new sub_topics($send));

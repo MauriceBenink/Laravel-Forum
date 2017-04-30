@@ -17,7 +17,7 @@ class MainTopicController extends Controller
     }
 
     public function showMainTopics(){
-        $maintopic = main_topics::all();
+        $maintopic = main_topics::orderBy('created_at','desc')->get();;
 
         return view('forum/main_topic')->with(['maintopics' => $maintopic]);
     }
@@ -37,7 +37,7 @@ class MainTopicController extends Controller
         $new->name = $request->title;
         $new->description = $request->description;
         $new->user_level_req_vieuw = $request->cansee;
-        $new->user_level_req_edit = 8;
+        $new->user_level_req_edit = maintopiclevel();
 
         $new -> save();
 

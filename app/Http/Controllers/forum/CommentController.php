@@ -26,7 +26,7 @@ class CommentController extends Controller
 
     public function showComments($maintopic,$subtopic,$post)
     {
-        $comments = comments::all()->where('upper_level_id', $post);
+        $comments = comments::where('upper_level_id', $post)->orderBy('created_at','desc')->get();
         return view('forum/comments')->with([
             'comments' => $comments,
             'post' => $post,
@@ -78,7 +78,7 @@ class CommentController extends Controller
             'user_level_req_vieuw' => $request->cansee ,
             'upper_level_id' => $post,
             'user_id' => Auth::user()->id,
-            'user_level_req_edit' => 6,
+            'user_level_req_edit' => min_mod_level(),
         ];
 
         Auth::user()->comments()->save(new comments($send));
@@ -169,7 +169,7 @@ class CommentController extends Controller
     }
 
     private function banComment($id,$reason){
-        if(auth_level(6)){
+        if(auth_level(min_mod_level())){
 
             $ban = comments::find($id);
             $ban->banned_by = Auth::user()->id;

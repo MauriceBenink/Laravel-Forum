@@ -21,7 +21,7 @@ class PostsController extends Controller
     }
 
     public function showPosts($maintopic,$subtopics){
-        $posts = posts::all()->where('upper_level_id',$subtopics);
+        $posts = posts::where('upper_level_id',$subtopics)->orderBy('created_at','desc')->get();
 
         return view('forum/post')->with(['posts' => $posts,'maintopic' => $maintopic]);
     }

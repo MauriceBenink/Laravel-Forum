@@ -32,7 +32,7 @@
                 @endif
             </div>
         </div>
-        @include('forum/layout/cansee')
+        @include('forum/layout/edit/cansee',['newname' => 'Comment'])
 
         <div class="form-group">
             <div class="col-md-8 col-md-offset-4">
