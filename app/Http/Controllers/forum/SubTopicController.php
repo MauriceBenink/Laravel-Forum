@@ -14,12 +14,14 @@ class SubTopicController extends Controller
     public function __construct(Request $request)
     {
         $par = $request->route()->parameters();
-        $this->middleware("path.check:{$par['maintopic']}",['except' => ['showEditSubTopic', 'makeEditSubTopic']]);
-        $this->middleware("create.perm:3,{$par['maintopic']}", ['only' => ['showNewSubTopic', 'makeNewSubTopic','editSubTopic']]);
         if(isset($par['subtopic'])){
             $this->middleware("path.check:{$par['maintopic']},{$par['subtopic']}",['only' => ['showEditSubTopic', 'makeEditSubTopic']]);
             $this->middleware("create.perm:3,{$par['maintopic']},{$par['subtopic']}", ['only' => ['showEditSubTopic', 'makeEditSubTopic']]);
+        }else {
+            $this->middleware("path.check:{$par['maintopic']}", ['except' => ['showEditSubTopic', 'makeEditSubTopic']]);
+            $this->middleware("create.perm:3,{$par['maintopic']}", ['only' => ['showNewSubTopic', 'makeNewSubTopic', 'editSubTopic']]);
         }
+
     }
 
 

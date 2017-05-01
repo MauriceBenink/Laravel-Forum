@@ -14,12 +14,13 @@ class MainTopicController extends Controller
     public function __construct(Request $request)
     {
         $par = $request->route()->parameters();
-
-        $this->middleware("create.perm:4",['only' => ['showNewMainTopics', 'makeNewMainTopic','editMainTopic']]);
         if(isset($par['maintopic'])){
             $this->middleware("path.check:{$par['maintopic']}",['only' => ['showEditMainTopic', 'makeEditMainTopic']]);
             $this->middleware("create.perm:4,{$par['maintopic']}",['only' => ['showEditMainTopic', 'makeEditMainTopic']]);
+        }else {
+            $this->middleware("create.perm:4", ['only' => ['showNewMainTopics', 'makeNewMainTopic', 'editMainTopic']]);
         }
+
     }
 
     public function showMainTopics(){
