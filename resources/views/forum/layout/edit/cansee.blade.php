@@ -2,7 +2,7 @@
     @if(isset($newname))
         <label for="canedit">Who can see this {{$newname}}</label>
     @else
-        <label for="canedit">Who can see this {{ucfirst(substr(class_basename($object),0,-1))}}</label>
+        <label for="canedit">Who can see this {{prittyName($object)}}</label>
     @endif
 <select name="cansee" id="cansee">
     <option value="0">Everyone</option>

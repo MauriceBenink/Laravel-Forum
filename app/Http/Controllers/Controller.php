@@ -16,6 +16,19 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 
+    protected function banObject($object,$reason){
+
+        $object->banned_by = Auth::user()->id;
+        $object->banned_reason = $reason;
+
+        if( $this->BanValidator([
+            "banned_by" =>$object->banned_by,
+            "banned_reason" => $object->banned_reason
+        ])->fails()){
+            return redirect("forum")->with('returnError','Failed to ban '.ucfirst(substr(class_basename($object),0,-1)));
+        }
+        $object->save();
+    }
 
     protected function BanValidator(array $data)
     {

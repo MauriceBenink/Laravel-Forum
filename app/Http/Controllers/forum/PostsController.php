@@ -13,10 +13,12 @@ class PostsController extends Controller
     public function __construct(Request $request)
     {
         $par = $request->route()->parameters();
-        $this->middleware("path.check:{$par['maintopic']},{$par['subtopic']}");
-        $this->middleware("create.perm:2,{$par['maintopic']},{$par['subtopic']}", ['only' => ['showNewPost', 'makeNewPost','editPost']]);
         if(isset($par['post'])) {
+            $this->middleware("path.check:{$par['maintopic']},{$par['subtopic']},{$par['post']}", ['only' => ['showEditPost', 'makeEditPost']]);
             $this->middleware("create.perm:2,{$par['maintopic']},{$par['subtopic']},{$par['post']}", ['only' => ['showEditPost', 'makeEditPost']]);
+        }else{
+            $this->middleware("path.check:{$par['maintopic']},{$par['subtopic']}", ['except' => ['showEditPost', 'makeEditPost']]);
+            $this->middleware("create.perm:2,{$par['maintopic']},{$par['subtopic']}", ['only' => ['showNewPost', 'makeNewPost','editPost']]);
         }
     }
 
@@ -65,9 +67,9 @@ class PostsController extends Controller
             'user_level_req_edit' => min_mod_level(),
         ];
 
-        Auth::user()->posts()->save(new posts($send));
+        Auth::user()->posts()->save($send = new posts($send));
 
-        return redirect("forum/$maintopic/$subtopic");
+        return redirect("forum/$maintopic/$subtopic/{$send->id}");
     }
 
     public function makeEditPost(Request $request,$maintopic,$subtopic,$post){
@@ -102,7 +104,6 @@ class PostsController extends Controller
                     $post->priority = $request->priority;
                 }
             }
-
             $post->save();
 
             $this->specialperm($post, $request->specialperm0, $request->specialperm1);
@@ -135,17 +136,7 @@ class PostsController extends Controller
     private function banPost($id,$reason){
         $post = posts::find($id);
 
-        $post->banned_by = Auth::user()->id;
-        $post->banned_reason = $reason;
-
-        if( $this->BanValidator([
-            "banned_by" =>$post->banned_by,
-            "banned_reason" => $post->banned_reason
-        ])->fails()){
-            return redirect("forum")->with('returnError','Failed to ban comment');
-        }
-
-        $post->save();
+        $this->banObject($post,$reason);
 
         return redirect(url()->current());
     }

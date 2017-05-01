@@ -51,39 +51,6 @@ class User extends Authenticatable
         return $this->hasMany('App\class_link_table','user_id','id');
     }
 
-    public function HasRank($rank){
-
-        if($this->level >= $rank){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public function isnew(){
-        if($this->level < 2){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public function isOwner(){
-        return $this->HasRank(9);
-    }
-
-    public function isAdmin(){
-        return $this->HasRank(8);
-    }
-
-    public function isMod(){
-        return $this->HasRank(6);
-    }
-
-    public function isSUser(){
-        return $this->HasRank(4);
-    }
-
     public function account_status(){
         switch($this->account_status){
             case 1:

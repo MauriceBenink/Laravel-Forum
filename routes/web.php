@@ -49,6 +49,9 @@ Route::post('validate','Validate@myValidate');
 Route::post('forum/new','forum\MainTopicController@makeNewMainTopic');
 Route::get('forum/new','forum\MainTopicController@showNewMainTopics')->name('newMainTopic');
 Route::get('forum','forum\MainTopicController@showMainTopics');
+Route::post('forum','forum\MainTopicController@editMainTopic ');
+Route::get('forum/{maintopic}/edit','forum\MainTopicController@showEditMainTopic')->name('editMainTopic');
+Route::post('forum/{maintopic}/edit','forum\MainTopicController@makeEditMainTopic');
 
 /**
  * Route for the SubTopics
@@ -56,6 +59,9 @@ Route::get('forum','forum\MainTopicController@showMainTopics');
 Route::post('forum/{maintopic}/new','forum\SubTopicController@makeNewSubTopic');
 Route::get('forum/{maintopic}/new','forum\SubTopicController@showNewSubTopic')->name("newSubTopic");
 Route::get("forum/{maintopic}",'forum\SubTopicController@showSubTopics');
+Route::post("forum/{maintopic}",'forum\SubTopicController@editSubTopic');
+Route::get("forum/{maintopic}/{subtopic}/edit",'forum\SubtopicController@showEditSubTopic')->name('editSubTopic');
+Route::post("forum/{maintopic}/{subtopic}/edit",'forum\SubtopicController@makeEditSubTopic');
 
 /**
  * Routes for the Posts
@@ -74,7 +80,7 @@ Route::post('forum/{maintopic}/{subtopic}/{post}/new','forum\CommentController@m
 Route::get('forum/{maintopic}/{subtopic}/{post}/new','forum\CommentController@showNewComment')->name('newComment');
 Route::get('forum/{maintopic}/{subtopic}/{post}','forum\CommentController@showComments');
 Route::post("forum/{maintopic}/{subtopic}/{post}",'forum\CommentController@editComment');
-Route::get('forum/{maintopic}/{subtopic}/{post}/{comment}/edit','forum\CommentController@showeditComment')->name('editComment');
+Route::get('forum/{maintopic}/{subtopic}/{post}/{comment}/edit','forum\CommentController@showEditComment')->name('editComment');
 Route::post('forum/{maintopic}/{subtopic}/{post}/{comment}/edit','forum\CommentController@makeEditComment');
 
 

@@ -11,9 +11,15 @@ use Illuminate\Support\Facades\Validator;
 class MainTopicController extends Controller
 {
 
-    public function __construct()
+    public function __construct(Request $request)
     {
-        $this->middleware("create.perm:4",['only' => ['showNewMainTopics', 'makeNewMainTopic']]);
+        $par = $request->route()->parameters();
+
+        $this->middleware("create.perm:4",['only' => ['showNewMainTopics', 'makeNewMainTopic','editMainTopic']]);
+        if(isset($par['maintopic'])){
+            $this->middleware("path.check:{$par['maintopic']}",['only' => ['showEditMainTopic', 'makeEditMainTopic']]);
+            $this->middleware("create.perm:4,{$par['maintopic']}",['only' => ['showEditMainTopic', 'makeEditMainTopic']]);
+        }
     }
 
     public function showMainTopics(){
@@ -25,6 +31,60 @@ class MainTopicController extends Controller
     public function showNewMainTopics(){
         return view('forum/new/maintopics');
     }
+
+    public function showEditMainTopic($maintopic){
+
+        $maintopic = main_topics::where('id',$maintopic)->get()->first();
+
+        return view("forum/edit/main_topic")->with([
+            'maintopic' => $maintopic,
+        ]);
+    }
+
+    public function editMainTopic(Request $request){
+
+        switch($request->type){
+
+            case "edit":
+                return redirect("forum/{$request->id}/edit");
+                break;
+
+            case "remove":
+                return $this->removeMainTopic($request->id);
+                break;
+            case "ban":
+                return $this->banMainTopic($request->id,$request->reason);
+                break;
+
+            default :
+                return redirect('forum')->with('returnError',noPermError());
+        }
+    }
+
+    private function banMainTopic($id,$reason){
+        $maintopic = main_topics::find($id);
+
+        $this->banObject($maintopic,$reason);
+
+        return redirect(url()->current());
+    }
+
+    private function removeMainTopic($id){
+
+        main_topics::killme(main_topics::find($id));
+
+        return redirect(url()->current());
+    }
+
+    public function makeEditMainTopic(Request $request,$maintopic){
+
+        $main = main_topics::find($maintopic);
+
+       if(user_edit_permission($main)){
+
+        }
+    }
+
 
     public function makeNewMainTopic(Request $request){
 

@@ -20,8 +20,12 @@ class CommentController extends Controller
     public function __construct(Request $request)
     {
         $par = $request->route()->parameters();
-        $this->middleware("path.check:{$par['maintopic']},{$par['subtopic']},{$par['post']}");
-        $this->middleware("create.perm:1,{$par['maintopic']},{$par['subtopic']},{$par['post']}", ['only' => ['showNewComment', 'makeNewComment','editComment','showEditComment','makeEditComment']]);
+        if(isset($par['comment'])) {
+            $this->middleware("path.check:{$par['maintopic']},{$par['subtopic']},{$par['post']},{$par['comment']}")->only(['showEditComment','makeEditComment']);
+        }else{
+            $this->middleware("path.check:{$par['maintopic']},{$par['subtopic']},{$par['post']}")->except(['showEditComment', 'makeEditComment']);
+        }
+        $this->middleware("create.perm:1,{$par['maintopic']},{$par['subtopic']},{$par['post']}")->only(['showNewComment', 'makeNewComment', 'editComment', 'showEditComment', 'makeEditComment']);
     }
 
     public function showComments($maintopic,$subtopic,$post)
@@ -172,20 +176,12 @@ class CommentController extends Controller
         if(auth_level(min_mod_level())){
 
             $ban = comments::find($id);
-            $ban->banned_by = Auth::user()->id;
-            $ban->banned_reason = $reason;
 
-            if( $this->BanValidator([
-                "banned_by" =>$ban->banned_by,
-                "banned_reason" => $ban->banned_reason
-            ])->fails()){
-                return redirect("forum")->with('returnError','Failed to ban comment');
-            }
-
-            $ban->save();
+            $this->banObject($ban,$reason);
 
             return redirect(url()->current());
         }
+        return redirect("forum")->with('returnError',noPermError());
     }
 
 

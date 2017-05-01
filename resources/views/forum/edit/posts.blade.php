@@ -30,9 +30,6 @@
 
         @if(auth_level($level))
             @include('forum/layout/edit/upper',['object' => $post])
-        @endif
-
-        @if(auth_level($level))
             @include('forum/layout/edit/priority',['object' => $post])
             @include('forum/layout/edit/rating',['object' => $post])
             @endif

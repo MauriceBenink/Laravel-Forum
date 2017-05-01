@@ -5,7 +5,7 @@
 
 <div class="form-group{{ $errors->has('upper') ? ' has-error' : '' }}">
 
-    <label for="upper">Change {{ucfirst(substr(class_basename($object),0,-1))}} location</label>
+    <label for="upper">Change {{prittyName($object)}} location</label>
     <select name="upper" id="upper">
         <option value="{{$object->upper_level_id}}">{{$object->up->name}}</option>
         @foreach($path::all()->where('id','=',$object->upper_level_id) as $item)

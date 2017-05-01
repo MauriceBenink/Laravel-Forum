@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\forum\exists;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -59,7 +58,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'level' => \App\Http\Middleware\rank::class,
         'account.status' => \App\Http\Middleware\AccStatus::class,
-        'path.check' => exists::class,
+        'path.check' => \App\Http\Middleware\forum\exists::class,
         'create.perm' => \App\Http\Middleware\forum\create_permission::class,
 
 

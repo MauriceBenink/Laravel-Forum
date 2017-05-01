@@ -1,6 +1,6 @@
 <div class="form-group{{ $errors->has('canedit') ? ' has-error' : '' }}">
 
-    <label for="canedit">Who can edit this {{ucfirst(substr(class_basename($object),0,-1))}}</label>
+    <label for="canedit">Who can edit this {{prittyName($object)}}</label>
     <select name="canedit" id="canedit">
         @foreach(\Illuminate\Support\Facades\DB::table('levels')->where('is_staff',1)->get()->all() as $tier)
             @if(\Illuminate\Support\Facades\Auth::user()->level >= $tier->level)

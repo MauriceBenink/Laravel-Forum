@@ -12,6 +12,36 @@ if(file_exists($_SERVER['DOCUMENT_ROOT'].'\..\app\Http\customEncrypt.php')){
  * Custom Helper Commands
  */
 
+if(! function_exists('prittyName')){
+    /**
+     * @param object    $object
+     * @param boolean   $allwords (default Treu)
+     *
+     * @return string
+     */
+    function prittyName($object,$allwords = true){
+
+        $object = class_basename($object);              //get the class name                                "main_topics"
+        $object = substr($object,0,-1);                 //remove the S at the end of the string             "main_topic"
+        $object = str_replace('_'," ",$object);         //replaces the _ in the string with a space         "main topic"
+
+        if($allwords) {                                 //makes every words first letter capatalized        "Main Topic"
+            $for = explode(' ',$object);
+            $object = [];
+            foreach ($for as $foo) {
+                $object[] = ucfirst($foo);
+            }
+            $object = implode(" ", $object);
+
+        }else{                                         //makes only the first letter capatalized            "Main topic"
+            $object = ucfirst($object);
+        }
+
+        return $object;
+    }
+}
+
+
 
 if(! function_exists('auth_level')){
     /**
