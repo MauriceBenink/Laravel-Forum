@@ -49,7 +49,7 @@ Route::post('validate','Validate@myValidate');
 Route::post('forum/new','forum\MainTopicController@makeNewMainTopic');
 Route::get('forum/new','forum\MainTopicController@showNewMainTopics')->name('newMainTopic');
 Route::get('forum','forum\MainTopicController@showMainTopics');
-Route::post('forum','forum\MainTopicController@editMainTopic ');
+Route::post('forum','forum\MainTopicController@editMainTopic');
 Route::get('forum/{maintopic}/edit','forum\MainTopicController@showEditMainTopic')->name('editMainTopic');
 Route::post('forum/{maintopic}/edit','forum\MainTopicController@makeEditMainTopic');
 

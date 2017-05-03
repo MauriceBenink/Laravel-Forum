@@ -43,7 +43,6 @@ class MainTopicController extends Controller
     }
 
     public function editMainTopic(Request $request){
-
         switch($request->type){
 
             case "edit":
@@ -79,11 +78,27 @@ class MainTopicController extends Controller
 
     public function makeEditMainTopic(Request $request,$maintopic){
 
-        $main = main_topics::find($maintopic);
+        $maintopic = main_topics::find($maintopic);
 
-       if(user_edit_permission($main)){
+       if(user_edit_permission($maintopic)){
 
+           $this->EditMainTopicValidator($request->all())->validate();
+
+           $maintopic->name = $request->title;
+           $maintopic->description = $request->description;
+           if(Auth::user()->level >= maintopiclevel()) {
+               $maintopic->priority = $request->priority;
+               $maintopic->user_level_req_vieuw = $request->cansee;
+               $maintopic->user_level_req_edit = $request->canedit;
+           }
+           $maintopic->save();
+
+           $this->specialperm($maintopic, $request->specialperm0, $request->specialperm1);
+
+           return redirect("forum");
         }
+
+        return redirect('forum')->with('returnError',noPermError());
     }
 
 
@@ -105,13 +120,23 @@ class MainTopicController extends Controller
         return redirect("forum");
     }
 
+    protected function EditMainTopicValidator(array $data)
+    {
+        return Validator::make($data, [
+            'title' => "required|min:10|max:50",
+            'description' => "required|min:10|max:500",
+            'cansee' =>"integer|max:".Auth::user()->level."|min:0",
+            "canedit" => "integer|min:".maintopiclevel(),
+            "priority" => "integer"
+        ]);
+    }
+
     protected function NewMainTopicValidator(array $data)
     {
         return Validator::make($data, [
             'title' => "required|min:10|max:50",
             'description' => "required|min:10|max:500",
-            'cansee' =>"required|integer|max:".Auth::user()->level."|min:0",
-            'user_id' => "exists:users,id",
+            'cansee' =>"required|integer|max:".Auth::user()->level."|min:0"
         ]);
     }
 }

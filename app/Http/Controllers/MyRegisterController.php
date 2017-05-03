@@ -31,10 +31,7 @@ class MyRegisterController extends Controller
         return view("auth.register");
     }
 
-//    public function register(Request $request)
-//    {
-//        return $request->all();
-//    }
+
 
     protected function validator(array $data)
     {
