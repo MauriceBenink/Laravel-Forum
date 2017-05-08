@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -12,7 +13,7 @@ class validate extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->only('showValidationForm');
         $this->middleware('account.status');
     }
 
@@ -47,10 +48,6 @@ class validate extends Controller
         }
     }
 
-
-
-
-
     private function checkhash($token){
         $this->Hashvalidator($token)->validate();
 
@@ -63,7 +60,7 @@ class validate extends Controller
 
     private function myValidateAccAtivate()
     {
-        $this->resetStatus();
+        $this->resetStatus(Auth::user()->id);
         return view('confirm.acc');
     }
 
@@ -77,7 +74,11 @@ class validate extends Controller
         ]);
     }
 
-    private function resetStatus(){
-        DB::update("update users set level = 2, account_status = 0, hashcode = null where id = ".Auth::user()->id);
+    private function resetStatus($id){
+        $user = User::find($id);
+        $user->account_status = 0;
+        $user->hashcode = null;
+        $user->level = validation_level();
+        $user->save();
     }
 }

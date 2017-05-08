@@ -12,6 +12,16 @@ if(file_exists($_SERVER['DOCUMENT_ROOT'].'\..\app\Http\customEncrypt.php')){
  * Custom Helper Commands
  */
 
+if(! function_exists('age')){
+
+    function age($input){
+        $now = \Carbon\Carbon::now();
+        $input = \Carbon\Carbon::parse($input);
+        return $now->diffInYears($input);
+    }
+}
+
+
 if(! function_exists('prittyName')){
     /**
      * @param object    $object

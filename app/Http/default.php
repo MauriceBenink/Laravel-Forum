@@ -26,6 +26,12 @@ if(! function_exists('defaultBanPop')){
     }
 }
 
+if(!function_exists('validation_level')){
+    function validation_level(){
+        return 2;
+    }
+}
+
 if(! function_exists('defaultBanDisplay')){
 
     function defaultBanDisplay(){

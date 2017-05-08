@@ -43,6 +43,12 @@ Route::get('validate/{token?}','Validate@showValidationForm');
 Route::get('validate','Validate@showValidationForm')->name('validation');
 Route::post('validate','Validate@myValidate');
 
+
+Route::get('profile','profile\ProfileController@showProfile');
+Route::get("profile/edit",'profile\ProfileController@editProfile');
+Route::get('profile/show/{name}','profile\ProfileController@showOtherProfile');
+Route::get('profile/edit/{name}','profile\ProfileController@editOtherProfile');
+
 /**
  * Routes for the Maintopics
  */
