@@ -10,9 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-if(isset($_POST['submit'])&&!empty($_POST['submit'])){
-    dd($_FILES);
-}
 
 Route::get('/', function () {
     return view('welcome');

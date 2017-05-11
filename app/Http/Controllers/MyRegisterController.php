@@ -37,7 +37,7 @@ class MyRegisterController extends Controller
     {
         return Validator::make($data, [
             'display_name' => 'required|'.display_req(),
-            'login_name' => 'required|',
+            'login_name' => 'required|'.login_req(),
             'email' => 'required|'.email_req(),
             'password' => 'required|min:6|confirmed',
             'hashcode' => 'empty',
