@@ -12,6 +12,17 @@ if(file_exists($_SERVER['DOCUMENT_ROOT'].'\..\app\Http\customEncrypt.php')){
  * Custom Helper Commands
  */
 
+if(! function_exists("get_img")){
+
+    function get_img($img=null){
+        if(is_null($img)||empty($img)){
+            return defaultPNG();
+        }
+        return $img;
+    }
+}
+
+
 if(! function_exists('age')){
 
     function age($input){
@@ -84,6 +95,7 @@ if(! function_exists('newItem')){
         if (!is_null(Auth::user())) {
             switch ($type) {
                 case 1:
+                case "posts":
                 case "comment":
                     if(Auth::user()->level >= commentlevel()){
                         return true;
@@ -91,12 +103,14 @@ if(! function_exists('newItem')){
                     break;
 
                 case 2:
+                case "sub_topics":
                 case "post":
                     if(Auth::user()->level >= postlevel()){
                         return true;
                     }
                     break;
                 case 3:
+                case "main_topics":
                 case "subtopic":
                     if(Auth::user()->level >= subtopiclevel()){
                         return true;
@@ -109,6 +123,7 @@ if(! function_exists('newItem')){
                         return true;
                     }
                     break;
+                default: dd($type);
             }
         }
         return false;

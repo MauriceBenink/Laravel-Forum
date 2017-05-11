@@ -6,8 +6,9 @@
     @endif
 <select name="cansee" id="cansee">
     <option value="0">Everyone</option>
+    <?php $level = \Illuminate\Support\Facades\Auth::user()->level ?>
     @foreach(\Illuminate\Support\Facades\DB::table('levels')->get()->all() as $tier)
-        @if(\Illuminate\Support\Facades\Auth::user()->level >= $tier->level)
+        @if($level >= $tier->level &&!is_null($tier->level)&&!is_null($tier->level))
         <option value="{{$tier->level}}">{{$tier->name}}</option>
         @endif
         @endforeach

@@ -40,7 +40,6 @@ class MyLoginController extends Controller
             $request['login_name'] = md5($request['login_name']);
         }
 
-
         $this->validateLogin($request);
 
         if ($this->hasTooManyLoginAttempts($request)) {

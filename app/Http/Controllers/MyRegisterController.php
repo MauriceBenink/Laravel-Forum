@@ -36,9 +36,9 @@ class MyRegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'display_name' => 'required|min:7|max:50|unique:users',
-            'login_name' => 'required|min:7|max:255|confirmed|unique:users',
-            'email' => 'required|email|max:255|unique:users|confirmed',
+            'display_name' => 'required|'.display_req(),
+            'login_name' => 'required|',
+            'email' => 'required|'.email_req(),
             'password' => 'required|min:6|confirmed',
             'hashcode' => 'empty',
         ]);

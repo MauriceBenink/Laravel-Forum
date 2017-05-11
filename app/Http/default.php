@@ -5,6 +5,36 @@
  *
  */
 
+
+
+if(! function_exists("profileEditLevel")){
+
+    function profileEditLevel(){
+        return 6;
+    }
+}
+
+if(! function_exists("display_req")){
+
+    function display_req(){
+       return 'min:7|max:50|unique:users';
+    }
+}
+
+if(! function_exists("email_req")){
+
+    function email_req(){
+        return 'email|max:255|unique:users|confirmed';
+    }
+}
+
+if(! function_exists("login_req")){
+
+    function login_req(){
+        return "min:7|max:255|confirmed|unique:users";
+    }
+}
+
 if(! function_exists('defaultBanPNG')){
 
     function defaultBanPNG(){
@@ -57,7 +87,7 @@ if(! function_exists('defaultPNG')){
 
 
     function defaultPNG(){
-        return 'default path';
+        return "http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT']."\profilePhotos\default.png";
     }
 }
 

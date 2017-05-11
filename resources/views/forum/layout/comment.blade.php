@@ -2,7 +2,7 @@
     <div class="author-body">
         @if(!is_null($comment->author))
         <div class="author-png">
-            <img src="{{$comment->author->png}}" alt="{{defaultPNG()}}">
+            <img src="{{get_img($comment->author->png)}}">
         </div>
         <div class="author-name">
             {{$comment->author->display_name}}}}
@@ -15,7 +15,7 @@
         </div>
         @else
         <div class="author-png">
-            <img src="{{defaultBanPNG()}}" alt="{{defaultPNG()}}">
+            <img src="{{defaultBanPNG()}}">
         </div>
         <div class="author-name">
             {{defaultBanDisplay()}}

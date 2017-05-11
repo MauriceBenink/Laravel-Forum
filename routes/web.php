@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+if(isset($_POST['submit'])&&!empty($_POST['submit'])){
+    dd($_FILES);
+}
 
 Route::get('/', function () {
     return view('welcome');
@@ -48,6 +51,10 @@ Route::get('profile','profile\ProfileController@showProfile');
 Route::get("profile/edit",'profile\ProfileController@editProfile');
 Route::get('profile/show/{name}','profile\ProfileController@showOtherProfile');
 Route::get('profile/edit/{name}','profile\ProfileController@editOtherProfile');
+Route::post('profile/edit/{name}','profile\ProfileController@makeEditOtherProfile');
+Route::post('profile/edit','profile\ProfileController@makeEditProfile');
+Route::get("profile/avatar/{name}",'profile\ProfileController@editProfilePicture');
+Route::post("profile/avatar/{name}",'profile\ProfileController@makeEditProfilePicture');
 
 /**
  * Routes for the Maintopics
