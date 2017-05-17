@@ -18,14 +18,14 @@ if(! function_exists("get_img")){
         if(is_null($img)||empty($img)){
             return defaultPNG();
         }
-        return $img;
+        return server_url().$img;
     }
 }
 
 if(! function_exists('server_url')){
 
     function server_url(){
-        return "http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT'];
+        return "http://".$_SERVER['HTTP_HOST'];
     }
 }
 

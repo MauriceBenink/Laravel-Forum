@@ -2,7 +2,7 @@
     <label for="location" class="col-md-4 control-label">Location</label>
 
     <div class="col-md-6">
-        <input id="location" type="text" class="form-control" name="location" value="{{ isset($object->location)&&!is_null($object->location)?$obeject->location:''}}" autofocus>
+        <input id="location" type="text" class="form-control" name="location" value="{{old('location') OR isset($object->location)&&!is_null($object->location)?$obeject->location:''}}" autofocus>
         @if ($errors->has('location'))
             <span class="help-block">
                         <strong>{{ $errors->first('location') }}</strong>

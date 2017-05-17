@@ -46,7 +46,7 @@
                             <label for="login_name" class="col-md-4 control-label">login name</label>
 
                             <div class="col-md-6">
-                                <input id="login_name" type="text" class="form-control" name="login_name"  required>
+                                <input id="login_name" type="text" placeholder="Case Sensitive !!" class="form-control" name="login_name"  required>
 
                                 @include('error/inputError',['type' => 'login_name'])
                             </div>

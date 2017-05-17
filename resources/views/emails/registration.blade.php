@@ -1,4 +1,4 @@
-@extends('emails/layout/mail)
+@extends('emails/layout/mail')
 
 @section('title')
     Registration email for Forum

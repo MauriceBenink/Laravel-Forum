@@ -1,4 +1,5 @@
 <div class="sub-topic-body">
+    <?php $author = $subtopic->author ?>
     <div class="title">
         {{$subtopic->name}}
     </div>
@@ -6,10 +7,11 @@
         {{$subtopic->description}}
     </div>
     <div class="author-body">
-        <div class="author-name" onclick='window.location =" {{url("profile/show/$author->display_name")}}"'>
-            @if(!is_null($subtopic->author))
-            {{$subtopic->author->display_name}}
+        @if(!is_null($author))
+            <div class="author-name" onclick='window.location =" {{url("profile/show/$author->display_name")}}"'>
+            {{$author->display_name}}
                 @else
+            <div class="author-name">
             {{defaultBanDisplay()}}
                 @endif
         </div>

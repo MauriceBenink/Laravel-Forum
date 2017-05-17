@@ -38,7 +38,7 @@ class ProfileController extends Controller
                 $img = Image::make($_FILES['image']['tmp_name'])->fit(300,200);
                 $img->save($_SERVER['DOCUMENT_ROOT'].$path);
 
-                $user->png = "http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT'].$path;
+                $user->png = $path;
                 $user->save();
             }
         }
@@ -162,7 +162,7 @@ class ProfileController extends Controller
             "location" => "nullable|min:5|max:50",
             "bday" => "nullable|date",
             "site" => "nullable|url",
-            "github" => "nullable|url",
+            "github" => "nullable",
         ]);
     }
 }

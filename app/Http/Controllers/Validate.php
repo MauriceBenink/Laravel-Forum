@@ -25,7 +25,9 @@ class validate extends Controller
         if(!is_null(Auth::user())){
             switch(Auth::user()->account_status){
 
-                case 2: return view('auth.passReset');
+                case 2: return redirect('forgot/password');
+                break;
+                case 3: return redirect('username/password');
                 break;
 
             }

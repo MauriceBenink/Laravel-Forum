@@ -73,12 +73,12 @@
                 <form action="{{url("forum/{$back['main']}/{$back['sub']}")}}">
                     <input type="submit" value="{{BTP()}}">
                 </form>
-                @if(newItem($new) && $new == 'comment')
+                @if(newItem($new) && $new == 'comment'))
                     <br>
                     <form action="{{url()->current().'/new'}}">
                         <input type="submit" value = "{{MNC()}}">
                     </form>
-                    @else
+                    @elseif(!is_null(\Illuminate\Support\Facades\Auth::user()))
                     <br>
                     <form action="{{url('validate')}}" onsubmit="return confirm('activate your account first !\n\nPress Ok to go to the validation page \nPress Cancel to stay on this page')">
                         <input type="submit" value = "{{MNC()}}">

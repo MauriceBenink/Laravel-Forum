@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     @if(session('returnError'))
         <div class="alert alert-danger">
