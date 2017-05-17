@@ -4,6 +4,7 @@
             <label>
                 <input type="checkbox" name="rating"> Reset {{prittyName($object)}} rating
             </label>
+            @include('error/inputError',['type' => 'rating'])
         </div>
     </div>
 </div>

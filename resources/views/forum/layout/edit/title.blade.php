@@ -10,10 +10,6 @@ if(!isset($placeholder)){
     <div class="col-md-6">
         <input id="title" type="text" class="form-control" placeholder = "{{$placeholder}}" name="title" value="{{ $object->name }}" autofocus>
 
-        @if ($errors->has('title'))
-            <span class="help-block">
-                        <strong>{{ $errors->first('title') }}</strong>
-                    </span>
-        @endif
+        @include('error/inputError',['type' => 'title'])
     </div>
 </div>

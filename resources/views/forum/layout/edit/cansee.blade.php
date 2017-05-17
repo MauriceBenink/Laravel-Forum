@@ -14,9 +14,5 @@
         @endforeach
 </select>
 
-@if ($errors->has('cansee'))
-    <span class="help-block">
-        <strong>{{ $errors->first('cansee') }}</strong>
-    </span>
-@endif
+        @include('error/inputError',['type' => 'cansee'])
 </div>

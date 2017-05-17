@@ -10,8 +10,4 @@
             @endforeach
     </select>
 </div>
-@if ($errors->has('level'))
-    <span class="help-block">
-        <strong>{{ $errors->first('level') }}</strong>
-    </span>
-@endif
+@include('error/inputError',['type' => 'level'])

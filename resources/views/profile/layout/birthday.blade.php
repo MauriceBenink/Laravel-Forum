@@ -9,8 +9,4 @@
         @endif
     </div>
 </div>
-@if ($errors->has('bday'))
-    <span class="help-block">
-        <strong>{{ $errors->first('bday') }}</strong>
-    </span>
-@endif
+@include('error/inputError',['type' => 'bday'])

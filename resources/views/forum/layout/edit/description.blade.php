@@ -10,10 +10,6 @@
     <div class="col-md-6">
         <input id="description" type="text" class="form-control" placeholder = "{{$placeholder}}" name="description" value="{{ $object->description }}" autofocus>
 
-        @if ($errors->has('description'))
-            <span class="help-block">
-                        <strong>{{ $errors->first('description') }}</strong>
-                    </span>
-        @endif
+        @include('error/inputError',['type' => 'description'])
     </div>
 </div>

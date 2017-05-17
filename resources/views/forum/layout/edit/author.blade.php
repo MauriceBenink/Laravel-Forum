@@ -9,9 +9,5 @@
             @endforeach
     </select>
 
-    @if ($errors->has('author'))
-        <span class="help-block">
-        <strong>{{ $errors->first('author') }}</strong>
-    </span>
-    @endif
+    @include('error/inputError',['type' => 'author'])
 </div>

@@ -6,7 +6,7 @@
         {{$subtopic->description}}
     </div>
     <div class="author-body">
-        <div class="author-name">
+        <div class="author-name" onclick='window.location =" {{url("profile/show/$author->display_name")}}"'>
             @if(!is_null($subtopic->author))
             {{$subtopic->author->display_name}}
                 @else

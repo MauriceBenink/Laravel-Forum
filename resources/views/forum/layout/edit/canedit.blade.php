@@ -20,9 +20,5 @@ switch(class_basename($object)){
         @endforeach
     </select>
 
-    @if ($errors->has('canedit'))
-        <span class="help-block">
-        <strong>{{ $errors->first('canedit') }}</strong>
-    </span>
-    @endif
+    @include('error/inputError',['type' => 'canedit'])
 </div>

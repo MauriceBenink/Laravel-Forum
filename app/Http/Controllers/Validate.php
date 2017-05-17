@@ -14,7 +14,7 @@ class validate extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only('showValidationForm');
-        $this->middleware('account.status');
+        $this->middleware('account.status')->only('showValidationForm');
     }
 
     protected $redirectTo = '/login';
@@ -22,6 +22,15 @@ class validate extends Controller
 
 
     public function showValidationForm($token = null){
+        if(!is_null(Auth::user())){
+            switch(Auth::user()->account_status){
+
+                case 2: return view('auth.passReset');
+                break;
+
+            }
+        }
+
         if($token == null) {
             return view("auth.confirm");
         }else {
@@ -33,7 +42,23 @@ class validate extends Controller
                 }
             }
         }
-        return redirect()->route('validation');
+        return redirect()->route('validation/password');
+    }
+
+    public function showResetPassword($token = null){
+        if(is_null($token)){
+            return view('auth.passReset');
+        }else{
+            return view('auth.passReset')->with(['hash' => $token]);
+        }
+    }
+
+    public function showResetUsername($token = null){
+        if(is_null($token)){
+            return view('auth.usernameReset');
+        }else{
+            return view('auth.usernameReset')->with(['hash' => $token]);
+        }
     }
 
 
@@ -46,6 +71,34 @@ class validate extends Controller
                     break;
             }
         }
+    }
+
+    public function ResetPassword(Request $request){
+
+        $this->resetPassValidator($request->all())->validate();
+
+        $user = User::where('hashcode',$request->hash)->get()->first();
+
+        $user->password = bcrypt($request->password);
+        $user->account_status = 0;
+        $user->hashcode = null;
+        $user->save();
+
+        return redirect('login');
+    }
+
+    public function ResetUsername(Request $request){
+
+        $this->resetUsernameValidator($request->all())->validate();
+
+        $user = User::where('hashcode',$request->hash)->get()->first();
+
+        $user->login_name = customEncrypt($request->login_name);
+        $user->account_status = 0;
+        $user->hashcode = null;
+        $user->save();
+
+        return redirect('login');
     }
 
     private function checkhash($token){
@@ -64,16 +117,6 @@ class validate extends Controller
         return view('confirm.acc');
     }
 
-
-    protected function Hashvalidator(array $data)
-    {
-        $id = Auth::user()->id;
-
-        return Validator::make($data, [
-            'hash' => "required|min:32|max:32|exists:users,hashcode,id,$id",
-        ]);
-    }
-
     private function resetStatus($id){
         $user = User::find($id);
         $user->account_status = 0;
@@ -81,4 +124,29 @@ class validate extends Controller
         $user->level = validation_level();
         $user->save();
     }
+
+    protected function Hashvalidator(array $data)
+    {
+        $id = Auth::user()->id;
+
+        return Validator::make($data, [
+            'hash' => "required|min:32|max:32|exists:users,hashcode,id,$id",
+            'password' => 'required|min:6|confirmed',
+        ]);
+    }
+
+    private function resetPassValidator(array $data){
+        return Validator::make($data, [
+            'hash' => "required|min:32|max:32|exists:users,hashcode",
+            'password' => 'required|min:6|confirmed',
+        ]);
+    }
+
+    private function resetUsernameValidator(array $data){
+        return Validator::make($data, [
+            'hash' => "required|min:32|max:32|exists:users,hashcode",
+            'login_name' => 'required|'.login_req(),
+        ]);
+    }
+
 }

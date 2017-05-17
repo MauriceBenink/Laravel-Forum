@@ -22,6 +22,13 @@ if(! function_exists("get_img")){
     }
 }
 
+if(! function_exists('server_url')){
+
+    function server_url(){
+        return "http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT'];
+    }
+}
+
 
 if(! function_exists('age')){
 

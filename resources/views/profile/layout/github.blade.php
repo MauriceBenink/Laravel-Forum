@@ -10,8 +10,4 @@
         @endif
     </div>
 </div>
-@if ($errors->has('github'))
-    <span class="help-block">
-        <strong>{{ $errors->first('github') }}</strong>
-    </span>
-@endif
+@include('error/inputError',['type' => 'github'])

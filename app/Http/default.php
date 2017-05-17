@@ -38,14 +38,7 @@ if(! function_exists("login_req")){
 if(! function_exists('defaultBanPNG')){
 
     function defaultBanPNG(){
-        return "Defualt PNG path for removed accounts";
-    }
-}
-
-if(! function_exists('defaultBanRole')){
-
-    function defaultBanRole(){
-        return "NA";
+        return server_url()."\profilePhotos\banned.png";
     }
 }
 
@@ -87,10 +80,9 @@ if(! function_exists('defaultPNG')){
 
 
     function defaultPNG(){
-        return "http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT']."\profilePhotos\default.png";
+        return server_url()."\profilePhotos\default.png";
     }
 }
-
 
 if(! function_exists('MNC')){
 

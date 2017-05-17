@@ -10,8 +10,4 @@
         @endif
     </div>
 </div>
-@if ($errors->has('location'))
-    <span class="help-block">
-        <strong>{{ $errors->first('location') }}</strong>
-    </span>
-@endif
+@include('error/inputError',['type' => 'location'])

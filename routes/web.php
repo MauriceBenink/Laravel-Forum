@@ -21,14 +21,10 @@ Route::get('/', function () {
 Route::get('login','MyLoginController@index')->name('login');
 Route::post('login','MyLoginController@login');
 Route::post('logout','MyLoginController@logout')->name('logout');
-
-/*
- * Currently unused
- */
-Route::post('password/email','MyLoginController@SendResetEmail');
-Route::get('password/reset','MyLoginController@ShowResetForm')->name('password.request');
-Route::post('password/reset','MyLoginController@reset');
-Route::get('password/reset/{token}','MyLoginController@ShowResetForm');
+Route::get('forgot/password','ForgotController@showForgotPass')->name('forgot.pass');
+Route::get("forgot/username",'ForgotController@showForgotUsername')->name('forgot.username');
+Route::post('forgot/password','ForgotController@checkForgotPass');
+Route::post("forgot/username",'ForgotController@checkForgotUsername');
 
 /*
  *  Routes for registering
@@ -39,12 +35,16 @@ Route::post('register','MyRegisterController@register');
 /**
  * Routes for validation of account/passwordReset/usernameReset
  */
+Route::get('validate/username/{token?}','Validate@showResetUsername');
+Route::post('validate/username','Validate@ResetUsername');
+Route::get('validate/password/{token?}','Validate@showResetPassword');
+Route::post('validate/password','Validate@ResetPassword');
 Route::get('validate/{token?}','Validate@showValidationForm');
 Route::get('validate','Validate@showValidationForm')->name('validation');
 Route::post('validate','Validate@myValidate');
 
 
-Route::get('profile','profile\ProfileController@showProfile');
+Route::get('profile','profile\ProfileController@showProfile')->name('profile');
 Route::get("profile/edit",'profile\ProfileController@editProfile');
 Route::get('profile/show/{name}','profile\ProfileController@showOtherProfile');
 Route::get('profile/edit/{name}','profile\ProfileController@editOtherProfile');

@@ -10,8 +10,4 @@
         @endif
     </div>
 </div>
-@if ($errors->has('real_name'))
-    <span class="help-block">
-        <strong>{{ $errors->first('real_name') }}</strong>
-    </span>
-@endif
+@include('error/inputError',['type' => 'real_name'])

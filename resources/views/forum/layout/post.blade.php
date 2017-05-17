@@ -8,14 +8,14 @@
     <div class="author-body">
         @if(!is_null($post->author))
         <div class="author-png">
-            <img src="{{$post->author->png}}" alt="{{defaultPNG()}}">
+            <img src="{{get_img($post->author->png)}}" height="45" width="45" onclick='window.location =" {{url("profile/show/$author->display_name")}}"'>
         </div>
-        <div class="author-name">
+        <div class="author-name" onclick='window.location =" {{url("profile/show/$author->display_name")}}"'>
             {{$post->author->display_name}}
         </div>
             @else
             <div class="author-png">
-                <img src="{{defaultBanPNG()}}" alt="{{defaultPNG()}}">
+                <img src="{{defaultBanPNG()}}" height="45" width="45">
             </div>
             <div class="author-name">
                 {{defaultBanDisplay()}}

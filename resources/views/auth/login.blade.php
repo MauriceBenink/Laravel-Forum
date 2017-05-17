@@ -50,8 +50,11 @@
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                <a class="btn btn-link" href="{{ route('forgot.pass') }}">
                                     Forgot Your Password?
+                                </a>
+                                <a class="btn btn-link" href="{{ route('forgot.username') }}">
+                                    Forgot Your Username?
                                 </a>
                             </div>
                         </div>

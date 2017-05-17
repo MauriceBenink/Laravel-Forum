@@ -26,15 +26,16 @@ class ProfileController extends Controller
         return view ('profile/editSelf');
     }
 
-    public function makeEditProfilePicture($profile){
+    public function makeEditProfilePicture(Request $request, $profile){
         $user = User::where('display_name',$profile)->get()->first();
         if(!is_null($user)) {
             if ($user->id == Auth::user()->id || Auth::user()->level >= profileEditLevel()) {
 
                 $path = "\profilePhotos\\$user->id.png";
 
+                $this->ProfilePictureValidator($request->all())->validate();
+
                 $img = Image::make($_FILES['image']['tmp_name'])->fit(300,200);
-                //file validator
                 $img->save($_SERVER['DOCUMENT_ROOT'].$path);
 
                 $user->png = "http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT'].$path;
@@ -139,6 +140,14 @@ class ProfileController extends Controller
 
         return redirect(url_remove(url()->current()));
     }
+
+    private function ProfilePictureValidator(array $data)
+    {
+        return Validator::make($data,[
+            'image' => 'image'
+        ]);
+    }
+
 
     private function ProfileValidator(array $data)
     {

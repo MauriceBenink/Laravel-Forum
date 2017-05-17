@@ -67,4 +67,6 @@ if(!is_null($object->author)){
         @endif
     @endforeach
 
+    @include('error/inputError',['type' => 'specialperm'])
+
 </div>
