@@ -6,7 +6,7 @@
             <img src="{{get_img($author->png)}}" height="45" width="45">
         </div>
         <div class="author-name" onclick='window.location =" {{url("profile/show/$author->display_name")}}"'>
-            {{$author->display_name}}}}
+            {{$author->display_name}}
         </div>
         <div class="author-role">
             {!!($author->levelName->name)!!}

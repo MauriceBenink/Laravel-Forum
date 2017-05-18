@@ -2,7 +2,7 @@
     <label for="footer" class="col-md-4 control-label">Comment Footer</label>
 
     <div class="col-md-6">
-        <textarea id="footer" class="form-control mce" name="footer" autofocus>{!!old('footer') OR isset($object->comment_footer)&&!is_null($object->comment_footer)?$object->comment_footer:'' !!}</textarea>
+        <textarea id="footer" class="form-control mce" name="footer" autofocus>{!! isset($object->comment_footer)&&!is_null($object->comment_footer)?$object->comment_footer:old('footer') !!}</textarea>
         @if ($errors->has('footer'))
             <span class="help-block">
                         <strong>{{ $errors->first('footer') }}</strong>

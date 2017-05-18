@@ -29,6 +29,26 @@ if(! function_exists('server_url')){
     }
 }
 
+if(! function_exists('github')){
+
+    function github($git){
+        return "<a href = 'https://github.com/$git'>https://github.com/$git</a>";
+    }
+}
+
+if(! function_exists('site_link')){
+
+    function site_link($site){
+        return "<a href = '$site'>$site</a>";
+    }
+}
+
+if(! function_exists('carbon_date')){
+
+    function carbon_date($date){
+       return \Carbon\Carbon::parse($date)->format("d-m-Y");
+    }
+}
 
 if(! function_exists('age')){
 

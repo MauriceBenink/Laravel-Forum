@@ -104,6 +104,7 @@ class validate extends Controller
     }
 
     private function checkhash($token){
+
         $this->Hashvalidator($token)->validate();
 
         if($token['hash'] == Auth::user()->hashcode){
@@ -133,7 +134,6 @@ class validate extends Controller
 
         return Validator::make($data, [
             'hash' => "required|min:32|max:32|exists:users,hashcode,id,$id",
-            'password' => 'required|min:6|confirmed',
         ]);
     }
 

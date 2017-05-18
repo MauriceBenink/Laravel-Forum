@@ -35,9 +35,9 @@ $auth = \Illuminate\Support\Facades\Auth::user();
         <div class="email">{{$auth->email}}</div>
     </div>
     <div class="profile-right">
-        <div class="b-day">{{(isset($user->birthday)&&!is_null($user->birthday)?\Carbon\Carbon::parse($user->birthday)->format("d-m-Y"):"not set")}}</div>
-        <div class="site">{{(isset($user->site)&&!is_null($user->site)?"<a>".$user->site."</a>":"not set")}}</div>
-        <div class="github">{{(isset($user->github)&&!is_null($user->github)?"<a>".$user->github."</a>":"not set")}}</div>
+        <div class="b-day">{{(isset($user->birthday)&&!is_null($user->birthday)?carbon_date($user->birthday):"not set")}}</div>
+        <div class="site">{!! (isset($user->site)&&!is_null($user->site)?site_link($user->site):"not set")!!}</div>
+        <div class="github">{!! (isset($user->github)&&!is_null($user->github)?github($user->github):"not set")!!}</div>
         <div class="comment_footer">{!! (isset($auth->comment_footer)&&!is_null($auth->comment_footer)?$auth->comment_footer:"not set")!!}</div>
     </div>
 </div>

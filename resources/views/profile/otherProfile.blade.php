@@ -23,9 +23,9 @@ $profile = \App\profile::where('user_id',$user->id)->get()->first();
             <div class="email">{{$user->email}}</div>
         </div>
         <div class="profile-left">
-            <div class="site">{{(isset($profile->site)&&!is_null($profile->site)?$profile->site:"not set")}}</div>
-            <div class="b-day">{{(isset($profile->birthday)&&!is_null($profile->birthday)?$profile->birthday:"not set")}}</div>
-            <div class="github">{{(isset($profile->github)&&!is_null($profile->github)?$profile->github:"not set")}}</div>
+            <div class="site">{!!(isset($profile->site)&&!is_null($profile->site)?site_link($profile->site):"not set")!!}</div>
+            <div class="b-day">{{(isset($profile->birthday)&&!is_null($profile->birthday)?carbon_date($profile->birthday):"not set")}}</div>
+            <div class="github">{!!(isset($profile->github)&&!is_null($profile->github)?github($profile->github):"not set")!!}</div>
         </div>
     </div>
 

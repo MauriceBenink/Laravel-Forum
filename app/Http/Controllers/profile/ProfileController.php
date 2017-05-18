@@ -78,11 +78,8 @@ class ProfileController extends Controller
 
     public function makeEditProfile(Request $request){
         $profile = profile::where("user_id",Auth::user()->id)->get()->first();
-        $user = User::find(Auth::user()->id)->get()->first();
+        $user = User::where('id',Auth::user()->id)->get()->first();
 
-        if(!empty($profile->github)){
-            $profile->github = "https://github.com/".$profile->github;
-        }
 
         $this->ProfileValidator($request->all())->validate();
 

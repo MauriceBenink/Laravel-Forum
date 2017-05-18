@@ -30,7 +30,7 @@ class create_permission
                 $post = posts::find($post)->get()->first();
                 if($post->user_id != Auth::user()->id) {
                     if($this->check($post)){
-                        return $this->no_perm();
+                        return $this->no_perm($post);
                     }
                 }
 
@@ -38,14 +38,14 @@ class create_permission
                 $subtopic = sub_topics::find($subtopic)->get()->first();
                 if($subtopic->user_id != Auth::user()->id) {
                     if($this->check($subtopic)){
-                        return $this->no_perm();
+                        return $this->no_perm($subtopic);
                     }
                 }
 
             case 3:
                 $maintopic = main_topics::find($maintopic)->get()->first();
                     if($this->check($maintopic)){
-                        return $this->no_perm();
+                        return $this->no_perm($maintopic);
                     }
         }
 
@@ -53,7 +53,7 @@ class create_permission
     }
 
     private function check($object){
-            if (!newItem(class_basename($object))) {
+            if ($object->user_level_req_vieuw >= Auth::user()->level) {
                 $perm = specialPermission($object);
                 if (empty($perm)) {
                     return true;
@@ -65,7 +65,7 @@ class create_permission
             return false;
     }
 
-    private function no_perm()
+    private function no_perm($object)
     {
             return redirect('forum')->with('returnError', 'You do not have the permission to preform this action !');
     }
