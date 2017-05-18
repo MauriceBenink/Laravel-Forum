@@ -35,11 +35,11 @@
         <div class="comment-content">
             {!! $comment->content !!}
         </div>
-        @if(!is_null($comment->author))
-        @if(!is_null($comment->author->comment_footer))
+        @if(!is_null($author))
+        @if(!is_null($author->comment_footer))
             <hr>
             <div class="comment-footer">
-                {!! $comment->author->comment_footer !!}
+                {!! $author->comment_footer !!}
             </div>
             <hr>
             @endif

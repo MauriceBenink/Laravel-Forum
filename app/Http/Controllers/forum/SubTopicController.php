@@ -21,6 +21,7 @@ class SubTopicController extends Controller
             $this->middleware("path.check:{$par['maintopic']}", ['except' => ['showEditSubTopic', 'makeEditSubTopic']]);
             $this->middleware("create.perm:3,{$par['maintopic']}", ['only' => ['showNewSubTopic', 'makeNewSubTopic', 'editSubTopic']]);
         }
+        $this->middleware('account.status:false')->only(['showNewSubTopic', 'makeNewSubTopic', 'editSubTopic','showEditSubTopic', 'makeEditSubTopic']);
 
     }
 
@@ -149,8 +150,6 @@ class SubTopicController extends Controller
         ];
 
         Auth::user()->subTopics()->save($send = new sub_topics($send));
-
-
 
         return redirect("forum/{$maintopic}/{$send->id}");
     }

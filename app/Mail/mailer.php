@@ -15,6 +15,7 @@ class mailer extends Mailable
 
 
     public static $to_user;
+    public static $title;
 
     /**
      * Create a new message instance.
@@ -54,40 +55,53 @@ class mailer extends Mailable
         });
     }
 
-    public static function forgotUsername($user){
-
-        if($user->account_status != 3){
-            return redirect('/');
-        }
-
-        $holder = self::mailsetup($user);
-
-        Mail::send('emails.usernameReset', $holder[0], $holder[1]);
-    }
-
     public static function forgotPass($user){
 
         if($user->account_status != 2){
             return redirect('/');
         }
 
-        $holder = self::mailsetup($user);
+        $holder = self::mailsetup($user,'Password Reset');
+
         Mail::send('emails.passwordReset', $holder[0], $holder[1]);
     }
 
-    private static function mailsetup($user){
+    public static function forgotUsername($user){
+
+        if($user->account_status != 3){
+            return redirect('/');
+        }
+
+        $holder = self::mailsetup($user,'Login-name Reset');
+
+        Mail::send('emails.usernameReset', $holder[0], $holder[1]);
+    }
+
+    public static function newEmail($user){
+        if($user->account_status != 4){
+            return redirect('/');
+        }
+
+        $holder = self::mailsetup($user,'Validate Email Adress');
+
+        Mail::send('emails.emailReset', $holder[0], $holder[1]);
+
+    }
+
+    private static function mailsetup($user,$title){
 
         $data = array(
             'user' => $user,
         );
 
         self::$to_user = $user->email;
+        self::$title = $title;
 
         $message = function ($message) {
 
             $message->from('LaravelForum@gmail.com', 'Forum@noreply');
 
-            $message->to(self::$to_user)->subject("Password reset");
+            $message->to(self::$to_user)->subject(self::$title);
 
         };
 

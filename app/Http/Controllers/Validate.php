@@ -13,26 +13,35 @@ class validate extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only('showValidationForm');
-        $this->middleware('account.status')->only('showValidationForm');
+        $this->middleware('auth')->only(['ValidationForm','showEmailValidation','emailValidation']);
+        $this->middleware('account.status')->only(['ValidationForm','showEmailValidation','emailValidation']);
     }
 
     protected $redirectTo = '/login';
 
+    public function showEmailValidation($token = null){
+        if(is_null($token)){
+            return view('auth.validateEmail');
+        }else{
+            $this->Hashvalidator(['hash' => $token])->validate();
 
+            return $this->makeEmailValidation($token);
+        }
+    }
 
     public function showValidationForm($token = null){
         if(!is_null(Auth::user())){
             switch(Auth::user()->account_status){
 
-                case 2: return redirect('forgot/password');
-                break;
-                case 3: return redirect('username/password');
+                case 4: return redirect('validate/email');
                 break;
 
             }
         }
+        return $this->ValidationForm($token);
+    }
 
+    private function ValidationForm($token){
         if($token == null) {
             return view("auth.confirm");
         }else {
@@ -63,6 +72,28 @@ class validate extends Controller
         }
     }
 
+    public function emailValidation(Request $request){
+
+        Validator::make($request->all(),[
+            'hash' => 'required'
+        ])->validate();
+
+        return $this->makeEmailValidation($request->hash);
+    }
+
+    public function makeEmailValidation($hash){
+
+        Validator::make(['hash' => $hash], [
+            'hash' => "required|min:32|max:32|exists:users,hashcode,id,".Auth::user()->id,
+        ])->validate();
+
+        $user = User::where('id',Auth::user()->id)->get()->first();
+        $user->hashcode = null;
+        $user->account_status = 0;
+        $user->save();
+
+        return view('confirm/email');
+    }
 
     public function myValidate(Request $request){
 
@@ -111,6 +142,17 @@ class validate extends Controller
             return true;
         }else{
             return false;
+        }
+    }
+
+    public static function status($user){
+
+        if($user->account_status == 2 || $user->account_status == 3){
+            $user = User::where('id',$user->id)->get()->first();
+
+            $user->account_status = 0;
+            $user->hashcode = null;
+            $user->save();
         }
     }
 

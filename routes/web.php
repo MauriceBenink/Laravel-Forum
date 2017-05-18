@@ -35,6 +35,8 @@ Route::post('register','MyRegisterController@register');
 /**
  * Routes for validation of account/passwordReset/usernameReset
  */
+Route::get('validate/email/{token?}','Validate@showEmailValidation');
+Route::post('validate/email','Validate@emailValidation');
 Route::get('validate/username/{token?}','Validate@showResetUsername');
 Route::post('validate/username','Validate@ResetUsername');
 Route::get('validate/password/{token?}','Validate@showResetPassword');
@@ -52,6 +54,12 @@ Route::post('profile/edit/{name}','profile\ProfileController@makeEditOtherProfil
 Route::post('profile/edit','profile\ProfileController@makeEditProfile');
 Route::get("profile/avatar/{name}",'profile\ProfileController@editProfilePicture');
 Route::post("profile/avatar/{name}",'profile\ProfileController@makeEditProfilePicture');
+Route::get('profile/password','profile\ProfileController@showPassChange');
+Route::post('profile/password','profile\ProfileController@EditPassword');
+Route::get('profile/username','profile\ProfileController@showUsernameChange');
+Route::post('profile/username','profile\ProfileController@EditUsername');
+Route::get('profile/email','profile\ProfileController@showEmailChange');
+Route::post('profile/email','profile\ProfileController@EditEmail');
 
 /**
  * Routes for the Maintopics

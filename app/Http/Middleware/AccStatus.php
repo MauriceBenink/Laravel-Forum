@@ -22,8 +22,13 @@ class AccStatus
                 return redirect()->intended();
             }
         }else{
-            if(Auth::user()->account_status != 0) {
-                return redirect('validate');
+            switch(Auth::user()->account_status) {
+                case 1:
+                    return redirect('validate');
+                    break;
+                case 4:
+                    return redirect('validate/email');
+                    break;
             }
         }
 

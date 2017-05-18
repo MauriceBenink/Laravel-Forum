@@ -29,7 +29,6 @@ class MyLoginController extends Controller
         return 'login_name';
     }
 
-
     public function login(Request $request)
     {
         $name = $request['login_name'];
@@ -51,6 +50,7 @@ class MyLoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
+
             return $this->sendLoginResponse($request);
         }
 
@@ -61,6 +61,18 @@ class MyLoginController extends Controller
         return $this->sendFailedLoginResponse($request);
 
 
+    }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        validate::status($this->guard()->user());
+
+        return $this->authenticated($request, $this->guard()->user())
+            ?: redirect()->intended($this->redirectPath());
     }
 
     function old($key = null, $default = null)

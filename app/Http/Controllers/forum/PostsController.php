@@ -20,6 +20,7 @@ class PostsController extends Controller
             $this->middleware("path.check:{$par['maintopic']},{$par['subtopic']}", ['except' => ['showEditPost', 'makeEditPost']]);
             $this->middleware("create.perm:2,{$par['maintopic']},{$par['subtopic']}", ['only' => ['showNewPost', 'makeNewPost','editPost']]);
         }
+        $this->middleware('account.status:false')->only(['showNewPost', 'makeNewPost','editPost','makeEditPost','showEditPost']);
     }
 
     public function showPosts($maintopic,$subtopics){
@@ -87,6 +88,7 @@ class PostsController extends Controller
             $post->description = $request->description;
             $post->content = $request->contentt;
             $post->user_level_req_vieuw = $request->cansee;
+
             if(Auth::user()->level >= min_mod_level()) {
                 if (isset($request->author)) {
                     $post->user_id = $request->author;
@@ -104,6 +106,7 @@ class PostsController extends Controller
                     $post->priority = $request->priority;
                 }
             }
+
             $post->save();
 
             $this->specialperm($post, $request->specialperm0, $request->specialperm1);

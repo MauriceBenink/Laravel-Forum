@@ -20,6 +20,7 @@ class MainTopicController extends Controller
         }else {
             $this->middleware("create.perm:4", ['only' => ['showNewMainTopics', 'makeNewMainTopic', 'editMainTopic']]);
         }
+        $this->middleware('account.status:false')->only(['showNewMainTopics', 'makeNewMainTopic', 'editMainTopic','showEditMainTopic', 'makeEditMainTopic']);
 
     }
 
@@ -86,11 +87,13 @@ class MainTopicController extends Controller
 
            $maintopic->name = $request->title;
            $maintopic->description = $request->description;
+
            if(Auth::user()->level >= maintopiclevel()) {
                $maintopic->priority = $request->priority;
                $maintopic->user_level_req_vieuw = $request->cansee;
                $maintopic->user_level_req_edit = $request->canedit;
            }
+
            $maintopic->save();
 
            $this->specialperm($maintopic, $request->specialperm0, $request->specialperm1);

@@ -25,6 +25,7 @@ class CommentController extends Controller
         }else{
             $this->middleware("path.check:{$par['maintopic']},{$par['subtopic']},{$par['post']}")->except(['showEditComment', 'makeEditComment']);
         }
+        $this->middleware('account.status:false')->only(['showNewComment', 'makeNewComment', 'editComment', 'showEditComment', 'makeEditComment']);
         $this->middleware("create.perm:1,{$par['maintopic']},{$par['subtopic']},{$par['post']}")->only(['showNewComment', 'makeNewComment', 'editComment', 'showEditComment', 'makeEditComment']);
     }
 
@@ -126,12 +127,12 @@ class CommentController extends Controller
                 if(isset($request->priority)){
                     $comment->priority = $request->priority;
                 }
-                $comment->save();
-
-                $this->specialperm($comment, $request->specialperm0, $request->specialperm1);
-
-                return redirect("forum/$maintopic/$subtopic/$post");
             }
+            $comment->save();
+
+            $this->specialperm($comment, $request->specialperm0, $request->specialperm1);
+
+            return redirect("forum/$maintopic/$subtopic/$post");
         }
         return redirect('forum')->with('returnError',noPermError());
     }
@@ -162,6 +163,7 @@ class CommentController extends Controller
     protected function removeComment($post,$id)
     {
         $comment = comments::all()->where('id',$id)->first();
+
         if ($this->checkComment($post, $comment)) {
 
             comments::killme($comment);

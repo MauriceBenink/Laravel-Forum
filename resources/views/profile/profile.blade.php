@@ -40,6 +40,15 @@ $auth = \Illuminate\Support\Facades\Auth::user();
         <div class="github">{!! (isset($user->github)&&!is_null($user->github)?github($user->github):"not set")!!}</div>
         <div class="comment_footer">{!! (isset($auth->comment_footer)&&!is_null($auth->comment_footer)?$auth->comment_footer:"not set")!!}</div>
     </div>
+    <a class="btn btn-link" href="{{ url('profile/password') }}">
+        Change Password
+    </a>
+    <a class="btn btn-link" href="{{ url('profile/username') }}">
+        Change Username
+    </a>
+    <a class="btn btn-link" href="{{ url('profile/email') }}">
+        Change Email Adress
+    </a>
 </div>
 
 <form action="{{url('profile/edit')}}">

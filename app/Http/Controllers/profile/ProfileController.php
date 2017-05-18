@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\profile;
 
+use App\Mail\mailer;
 use App\profile;
 use App\User;
 use Illuminate\Http\Request;
@@ -25,6 +26,105 @@ class ProfileController extends Controller
     public function editProfile(){
         return view ('profile/editSelf');
     }
+
+    public function showPassChange(){
+        return view('profile/change/password');
+    }
+
+    public function showUsernameChange(){
+        return view('profile/change/username');
+    }
+
+    public function showEmailChange(){
+        return view('profile/change/email');
+    }
+
+    public function showOtherProfile($profile){
+        $user = User::where('display_name',$profile)->get()->first();
+        if(!is_null($user)) {
+            return view('profile/otherProfile')->with(['user' => $user]);
+        }
+        return redirect("forum")->with("returnError","This Profile doesnt exist");
+    }
+
+    public function editOtherProfile($profile){
+        $user = User::where('display_name',$profile)->get()->first();
+        if(!is_null($user)) {
+            return view('profile/editOther')->with(['user' => $user]);
+        }
+        return redirect("forum")->with("returnError","This Profile doesnt exist");
+    }
+
+    public function EditEmail(Request $request){
+
+        if(!is_null(Auth::user()->id)) {
+            if ($this->guard()->validate(['login_name' => customEncrypt($request->login), 'password' => $request->password])) {
+
+                Validator::make($request->all(), [
+                    'email' => 'required|email|confirmed|unique:users,email',
+                ])->validate();
+
+                $user = User::where('id', Auth::user()->id)->get()->first();
+
+                $user->email = $request->email;
+                $user->account_status = 4;
+                $user->hashcode = md5(uniqid(rand(), true));
+
+                mailer::newEmail($user);
+
+                $user->save();
+
+                return redirect('validate/email');
+            }
+            return redirect('profile/email')->with('returnError', 'Creditentials didnt match');
+        }
+        return redirect('login')->with('returnError','You have to login first');
+    }
+
+    public function EditPassword(Request $request){
+
+        $user = Auth::user();
+
+        if(!empty($user)) {
+            if ($this->guard()->validate(['login_name' => customEncrypt($request->login), 'password' => $request->oldpassword])) {
+
+                Validator::make($request->all(),[
+                    'password' => 'required|min:6|confirmed',
+                ])->validate();
+
+                $user = User::where('id',$user->id)->get()->first();
+                $user->password = bcrypt($request->password);
+                $user->save();
+
+                return redirect('profile')->with('returnError','Password Changed');
+            }
+            return redirect('profile/password')->with('returnError','Creditentials didnt match');
+        }
+        return redirect('login')->with('returnError','You have to be logged in to do this');
+    }
+
+    public function EditUsername(Request $request){
+
+        $user = Auth::user();
+
+        if(!empty($user)) {
+            if ($this->guard()->validate(['login_name' => customEncrypt($request->oldlogin), 'password' => $request->password])) {
+
+                Validator::make($request->all(),[
+                    'login' => 'required|'.login_req(),
+                ])->validate();
+
+                $user = User::where('id',$user->id)->get()->first();
+                $user->login_name = customEncrypt($request->login);
+                $user->save();
+
+                return redirect('profile')->with('returnError','Login name Changed');
+            }
+            return redirect('profile/username')->with('returnError','Creditentials didnt match');
+        }
+        return redirect('login')->with('returnError','You have to be logged in to do this');
+    }
+
 
     public function makeEditProfilePicture(Request $request, $profile){
         $user = User::where('display_name',$profile)->get()->first();
@@ -56,22 +156,6 @@ class ProfileController extends Controller
                 return view('profile/editprofilepicture')->with(['user' => $user]);
             }
             return redirect("forum")->with("returnError","You do not have the permissions to do this");
-        }
-        return redirect("forum")->with("returnError","This Profile doesnt exist");
-    }
-
-    public function showOtherProfile($profile){
-        $user = User::where('display_name',$profile)->get()->first();
-        if(!is_null($user)) {
-            return view('profile/otherProfile')->with(['user' => $user]);
-        }
-        return redirect("forum")->with("returnError","This Profile doesnt exist");
-    }
-
-    public function editOtherProfile($profile){
-        $user = User::where('display_name',$profile)->get()->first();
-        if(!is_null($user)) {
-            return view('profile/editOther')->with(['user' => $user]);
         }
         return redirect("forum")->with("returnError","This Profile doesnt exist");
     }
@@ -161,5 +245,10 @@ class ProfileController extends Controller
             "site" => "nullable|url",
             "github" => "nullable",
         ]);
+    }
+
+    protected function guard()
+    {
+        return Auth::guard();
     }
 }

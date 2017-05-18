@@ -59,6 +59,9 @@ class User extends Authenticatable
             case 2:
                 $message = "Reset Password";
                 break;
+            case 4:
+                $message = "Validate Email";
+                break;
         }
         return $message;
     }

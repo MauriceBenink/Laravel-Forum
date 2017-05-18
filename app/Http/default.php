@@ -31,7 +31,7 @@ if(! function_exists("email_req")){
 if(! function_exists("login_req")){
 
     function login_req(){
-        return "min:7|max:255|confirmed|unique:users";
+        return "min:7|max:255|confirmed|unique:users,login_name";
     }
 }
 
