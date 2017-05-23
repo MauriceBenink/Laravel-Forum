@@ -38,5 +38,12 @@ class class_link_table extends Model
         return $this->hasMany('App\class_link_table');
     }
 
+    public static function killAll($number,$colum){
+        $deadrows = self::where($colum,$number)->get()->all();
+        foreach($deadrows as $deadrow){
+            self::destroy($deadrow->id);
+        }
+    }
+
 
 }

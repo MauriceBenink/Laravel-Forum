@@ -79,7 +79,13 @@ Route::post('profile/email','profile\ProfileController@EditEmail');
  */
 
 Route::get('profile/specialperm/{name?}','profile\SpecialPermController@showSpecialPerm');
+Route::get('group/specialperm/{name}','profile\SpecialPermController@showUserGroup');
+Route::get('content/specialperm/{name}','profile\SpecialPermController@showContentGroup');
+Route::get('group/specialperm/{name}/add','profile\SpecialPermController@addUserGroup');
+Route::get('content/specialperm/{name}/add','profile\SpecialPermController@addContentGroup');
+Route::post('specialPermission/add','profile\SpecialPermController@editGroup');
 Route::post('specialPermission','profile\SpecialPermController@deleteSpecialPerm');
+Route::post('new/specialperm','profile\SpecialPermController@newGroup');
 
 
 
