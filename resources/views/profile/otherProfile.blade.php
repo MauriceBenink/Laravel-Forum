@@ -8,11 +8,15 @@ $profile = \App\profile::where('user_id',$user->id)->get()->first();
     <div class="container">
         <div class="profile-left">
             <div class="img">
-                <form action = '{{url("profile/avatar/$user->display_name")}}'>
-                    <button style = "background-color: Transparent;background-repeat:no-repeat;border: none;cursor:pointer;overflow: hidden;outline:none;">
-                        <img src="{{get_img($user->png)}}" height="45" width="45">
-                    </button>
-                </form>
+                @if(auth_level(profileEditLevel()))
+                    <form action = '{{url("profile/avatar/$user->display_name")}}'>
+                        <button style = "background-color: Transparent;background-repeat:no-repeat;border: none;cursor:pointer;overflow: hidden;outline:none;">
+                            <img src="{{get_img($user->png)}}" height="45" width="45">
+                        </button>
+                    </form>
+                @else
+                    <img src="{{get_img($user->png)}}" height="45" width="45">
+                @endif
             </div>
             <div class="display_name">{{$user->display_name}}</div>
             <div class="real_name">{{(isset($profile->name)&&!is_null($profile->name)?$profile->name:"not set")}}</div>
@@ -28,16 +32,20 @@ $profile = \App\profile::where('user_id',$user->id)->get()->first();
             <div class="github">{!!(isset($profile->github)&&!is_null($profile->github)?github($profile->github):"not set")!!}</div>
         </div>
     </div>
+    @if(Auth::user())
+        @if(Auth::user()->level >= profileEditLevel())
+            <form action="{{url("profile/edit/".$user->display_name)}}">
+                <input type="submit" value = "edit">
+            </form>
+        @endif
 
-    <form action="{{url("profile/edit/".$user->display_name)}}">
-        <input type="submit" value = "edit">
-    </form>
-    <form action="{{url("profile/specialperm/$user->display_name")}}">
-        <input type="submit" value = "Special Permissions">
-    </form>
-    <form action="{{url("message/send/$user->display_name")}}">
-        <input type="submit" value="Send message">
-    </form>
+        <form action="{{url("profile/specialperm/$user->display_name")}}">
+            <input type="submit" value = "Special Permissions">
+        </form>
+        <form action="{{url("message/send/$user->display_name")}}">
+            <input type="submit" value="Send message">
+        </form>
+    @endif
 
 
 

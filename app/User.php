@@ -51,8 +51,11 @@ class User extends Authenticatable
         return $this->hasMany('App\class_link_table','user_id','id');
     }
 
-    public function account_status(){
+    public function accountStatus(){
         switch($this->account_status){
+            case 0:
+                $message = 'Already Confirmed';
+                break;
             case 1:
                 $message = 'Activate Account';
                 break;

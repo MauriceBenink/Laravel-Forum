@@ -32,7 +32,8 @@ class validate extends Controller
     public function showValidationForm($token = null){
         if(!is_null(Auth::user())){
             switch(Auth::user()->account_status){
-
+                case 0: return redirect('forum')->with('returnError',"You already Validated your account!");
+                break;
                 case 4: return redirect('validate/email');
                 break;
 
@@ -99,6 +100,8 @@ class validate extends Controller
 
         if($this->checkhash($request->all())){
             switch (Auth::user()->account_status){
+                case 0:
+                    return redirect('form')->with('returnError','You have nothing to validate !');
                 case 1:
                     return $this->myValidateAccAtivate();
                     break;

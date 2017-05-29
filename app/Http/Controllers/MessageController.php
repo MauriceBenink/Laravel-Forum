@@ -134,6 +134,9 @@ class MessageController extends Controller
             'title' => 'required|min:4',
         ])->validate();
 
+        if(Auth::user()->account_status != 0){
+            return redirect('message')->with('returnError','You must validate before you\'re able to send messages');
+        }
         $receiver = User::where('display_name',$request->to)->get()->first()->id;
         if($receiver == Auth::user()->id){
             return redirect('message/send')->with('returnError','You Cant Message yourself');
