@@ -75,6 +75,19 @@ Route::get('profile/email','profile\ProfileController@showEmailChange');
 Route::post('profile/email','profile\ProfileController@EditEmail');
 
 /**
+ * Routes for the AdminPanel
+ */
+
+Route::get("adminPanel","AdminPanelController@showPanel");
+Route::get("adminPanel/Users",'AdminPanelController@showUsers');
+Route::get("adminPanel/ContentGroups",'AdminPanelController@showContentGroups');
+Route::get('adminPanel/UserGroups','AdminPanelController@showUserGroups');
+Route::get('adminPanel/bannedPosts','AdminPanelController@showBanned');
+
+Route::post("adminPanel/Users",'AdminPanelController@editUsers');
+Route::post("adminPanel/bannedPosts",'AdminPanelController@unbanPost');
+
+/**
  * Routes for displaying special permissions of users or groups
  */
 
@@ -88,6 +101,18 @@ Route::post('specialPermission','profile\SpecialPermController@deleteSpecialPerm
 Route::post('new/specialperm','profile\SpecialPermController@newGroup');
 
 
+/**
+ * Routes for Messages
+ */
+Route::get('message','MessageController@showMessages');
+Route::get('message/send/{link?}','MessageController@showsend');
+Route::get('message/inbox','MessageController@showInbox');
+Route::get('message/outbox','MessageController@showOutbox');
+Route::get('message/view/{id}','MessageController@showMessage');
+
+Route::post('message/send','MessageController@sendMessage');
+Route::post('message','MessageController@deleteMessage');
+Route::post('message/view/{id}','MessageController@replyMessage');
 
 /**
  * Routes for the Maintopics

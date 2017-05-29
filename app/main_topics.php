@@ -22,6 +22,10 @@ class main_topics extends Model
         return $this->hasMany('App\class_link_table','main_topics_id','id');
     }
 
+    public function bannedBy(){
+        return $this->hasMany('App\Users','id','banned_by');
+    }
+
     public static function killme($maintopic){
         foreach($maintopic->down as $subtopic){
             sub_topics::killme($subtopic);

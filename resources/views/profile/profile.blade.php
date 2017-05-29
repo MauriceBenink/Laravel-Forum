@@ -54,6 +54,9 @@ $auth = \Illuminate\Support\Facades\Auth::user();
 <form action="{{url('profile/edit')}}">
     <input type="submit" value = "edit">
 </form>
+<form action="{{url("profile/specialperm/$auth->display_name")}}">
+    <input type="submit" value = "Special Permissions">
+</form>
 
 
 

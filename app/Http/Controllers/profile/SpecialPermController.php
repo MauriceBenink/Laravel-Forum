@@ -50,7 +50,7 @@ class specialPermController extends Controller
 
             if(!is_null($perm->content_group_id)){
                 $perm->content_group = $perm->content_group_id;
-                $perm->content_group_id = class_link_table::where('user_content_id',$perm->content_group_id)->get()->all();
+                $perm->content_group_id = class_link_table::where('content_group_id',$perm->content_group_id)->get()->all();
             }
         }
 

@@ -58,7 +58,12 @@
                                 <a href="{{url('forum')}}">Forum</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <?php $holder = \App\Messages::hasUnread()?>
+                                @if($holder)
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style = "color: red">
+                                @else
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                @endif
                                     {{ Auth::user()->display_name }} <span class="caret"></span>
                                 </a>
 
@@ -66,6 +71,15 @@
                                     <li>
                                         <a href="{{route("profile")}}"> Profile</a>
                                     </li>
+                                        @if(Auth::user()->level >= min_mod_level())
+                                            <li><a href="{{url("adminPanel")}}">Admin Panel</a></li>
+                                        @endif
+
+                                        @if($holder)
+                                            <li><a href="{{url("message")}}" style = "color: red">Messages</a></li>
+                                        @else
+                                            <li><a href="{{url("message")}}">Messages</a></li>
+                                        @endif
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

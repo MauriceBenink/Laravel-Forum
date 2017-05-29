@@ -32,6 +32,12 @@ $profile = \App\profile::where('user_id',$user->id)->get()->first();
     <form action="{{url("profile/edit/".$user->display_name)}}">
         <input type="submit" value = "edit">
     </form>
+    <form action="{{url("profile/specialperm/$user->display_name")}}">
+        <input type="submit" value = "Special Permissions">
+    </form>
+    <form action="{{url("message/send/$user->display_name")}}">
+        <input type="submit" value="Send message">
+    </form>
 
 
 
