@@ -79,13 +79,15 @@ Route::post('profile/email','profile\ProfileController@EditEmail');
  */
 
 Route::get("adminPanel","AdminPanelController@showPanel");
-Route::get("adminPanel/Users",'AdminPanelController@showUsers');
+Route::get("adminPanel/Users/{rank?}",'AdminPanelController@showUsers');
 Route::get("adminPanel/ContentGroups",'AdminPanelController@showContentGroups');
 Route::get('adminPanel/UserGroups','AdminPanelController@showUserGroups');
 Route::get('adminPanel/bannedPosts','AdminPanelController@showBanned');
+Route::get('adminPanel/levels','AdminPanelController@showLevels');
 
 Route::post("adminPanel/Users",'AdminPanelController@editUsers');
 Route::post("adminPanel/bannedPosts",'AdminPanelController@unbanPost');
+Route::post('adminPanel/levels','AdminPanelController@editLevels');
 
 /**
  * Routes for displaying special permissions of users or groups

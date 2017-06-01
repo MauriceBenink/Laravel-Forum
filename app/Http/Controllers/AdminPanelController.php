@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\class_link_table;
+use App\level;
 use App\User;
 use App\main_topics;
 use App\sub_topics;
@@ -23,9 +24,21 @@ class AdminPanelController extends Controller
         return view("panel/main");
     }
 
-    public function showUsers(){
+    public function showUsers($rank = null){
+
+        if(isset($_GET['options'])&&!empty($_GET['options'])){
+            $rank = $_GET['options'];
+        }
+
+        if(is_null($rank)){
+          $user = User::orderBy('level','DESC')->get()->all();
+        }else{
+            $user = User::where('level',level::where('name',$rank)->get()->first()->level)->orderBy('level','DESC')->get()->all();
+        }
+
         return view("panel/users")->with([
-            'users' => User::orderBy('level','DESC')->get()->all()
+            'users' => $user,
+            'rank' => $rank,
         ]);
     }
 
@@ -52,6 +65,119 @@ class AdminPanelController extends Controller
             'type' => 'Content',
             'groups' => class_link_table::whereNotNull('group_name')->whereNotNull('content_group_id')->get()->all(),
         ]);
+    }
+
+    public function showLevels(){
+
+        $level = level::max('level')==Auth::user()->level?level::orderBy('level')->get()->all():level::where('level','<',Auth::user()->level)->orderBy('level')->get()->all();
+
+        return view("panel/levels")->with([
+            'levels' => $level,
+        ]);
+    }
+
+    public function editlevels(Request $request){
+
+        $request['staff'] = $request->staff=='on'?true:false;
+
+        if(isset($request->delete)){
+            return $this->dellevel($request);
+        }
+
+        if(!isset($request->id)){
+            return $this->addlevel($request);
+        }
+        return $this->editlevel($request);
+    }
+
+    private function dellevel($request){
+
+        $level = level::where('id',$request->id)->get()->first();
+
+        if(Auth::user()->level != level::max('level')) {
+            if (Auth::user()->level <= $request->level) {
+                return redirect('adminPanel/levels')->with('returnError', 'Cannot delete levels higher then you!');
+            }
+        }
+
+        if($level->level == 1 || $level->level == 2){
+            return redirect('adminPanel/levels')->with('returnError', 'Cannot delete levels 1 and 2');
+        }
+
+        if(User::where('level',$level->level)->count('level') != 0){
+            return redirect('adminPanel/levels')->with('returnError', 'Cannot delete levels with people in it');
+        }
+
+        level::destroy($level->id);
+
+        return redirect('adminPanel/levels');
+    }
+
+    private function editlevel($request){
+
+        $level = level::where('id',$request->id)->get()->first();
+        $levels = level::get();
+
+        if($request->level == $level->level){
+            $request['level'] = null;
+        }
+
+        Validator::make($request->all(),[
+            'name' => 'required|min:2|max:50',
+            'level' => 'nullable|integer|min:0|max:99|unique:levels,level',
+            'staff' => 'required|boolean'
+        ])->validate();
+
+        if(is_null($request->level)){
+            $request['level'] = $level->level;
+        }
+
+        if(($level->level == 1||$level->level == 2)&& $level->level != $request->level){
+            return redirect('adminPanel/levels')->with('returnError', 'Cannot edit levels 1 and 2');
+        }
+
+        if(Auth::user()->level != $levels->max('level')) {
+            if (Auth::user()->level <= $level->level) {
+                return redirect('adminPanel/levels')->with('returnError', 'Cannot edit levels higher then you!');
+            }
+            if (Auth::user()->level <= $request->level) {
+                return redirect('adminPanel/levels')->with('returnError', 'Cannot change level to higher then your own!');
+            }
+        }
+
+        if($level->level != $request->level){
+            User::where('level',$level->level)->update(['level' => $request->level]);
+        }
+
+        $level->level = $request->level;
+        $level->name = $request->name;
+        $level->is_staff = $request->staff?1:0;
+        $level->save();
+
+        return redirect('adminPanel/levels');
+    }
+
+    private function addlevel($request){
+
+        Validator::make($request->all(),[
+            'name' => 'required|min:2|max:50',
+            'level' => 'required|integer|min:0|max:99|unique:levels,level',
+            'staff' => 'required|boolean'
+        ])->validate();
+
+        if(Auth::user()->level != level::max('level')) {
+            if (Auth::user()->level <= $request->level) {
+                return redirect('adminPanel/levels')->with('returnError', 'Cannot make levels higher then you!');
+            }
+        }
+
+        $level = new level();
+        $level->name = $request->name;
+        $level->level = $request->level;
+        $level->is_staff = $request->staff?1:0;
+        $level->save();
+
+        return redirect('adminPanel/levels');
     }
 
     public function editUsers(Request $request){

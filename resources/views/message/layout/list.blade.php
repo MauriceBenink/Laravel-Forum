@@ -9,8 +9,10 @@
                     <b>{{$message->subject}}</b>
                 @endif
                 </a>
-                From : {{$message->sendBy->display_name}}
-                To : {{$message->sendTo->display_name}}
+                <?php $sendby = $message->sendBy ?>
+                From : {{is_null($sendby)?'cant find sender':$sendby->display_name}}
+                <?php $sendto = $message->sendTo ?>
+                To : {{is_null($sendto)?'cant find reciever':$sendto->display_name}}
             </li>
             <form action="{{url('message')}}" method="post">
                 {{csrf_field()}}

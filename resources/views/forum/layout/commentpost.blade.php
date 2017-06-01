@@ -7,7 +7,10 @@
         {!!$post->content!!}
     </div>
     <div class="post-footer">
-        {!! $post->author->comment_footer !!}
+        <?php $author = $post->author ?>
+        @if(!is_null($author))
+            {!! $author->comment_footer !!}
+        @endif
     </div>
     <?php $author = $post->author ?>
     @if(!is_null($author))

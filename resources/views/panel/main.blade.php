@@ -1,8 +1,4 @@
 @extends('layouts/app')
-<?php
-
-?>
-
 
 @section('content')
     <form action="{{url('adminPanel/Users')}}" id="users">
@@ -19,6 +15,10 @@
 
     <form action="{{url('adminPanel/ContentGroups')}}" id="users">
         <input type="submit" value="Show all content Groups">
+    </form>
+
+    <form action="{{url('adminPanel/levels')}}" id="users">
+        <input type="submit" value="Edit Levels">
     </form>
 
 

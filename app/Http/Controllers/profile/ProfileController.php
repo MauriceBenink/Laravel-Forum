@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
+use \Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
@@ -232,6 +233,10 @@ class ProfileController extends Controller
 
     private function ProfileValidator(array $data)
     {
+        $yesterday = Carbon::yesterday();
+
+
+
         return Validator::make($data, [
             "display_name" => 'nullable|'.display_req(),
             "level" => "nullable|integer|exists:levels,level|max:".Auth::user()->level,
@@ -240,8 +245,8 @@ class ProfileController extends Controller
             "comment_footer" => "nullable|min:5|max:500",
             "real_name" => 'nullable|min:2|max:50',
             "bio" => "nullable|min:10|max:2000",
-            "location" => "nullable|min:5|max:50",
-            "bday" => "nullable|date",
+            "location" => "nullable|min:2|max:150",
+            "bday" => "nullable|date|before:".$yesterday,
             "site" => "nullable|url",
             "github" => "nullable",
         ]);
